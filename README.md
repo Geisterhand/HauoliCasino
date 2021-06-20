@@ -1,5 +1,4 @@
-New Pokestop Plugin that uses the with 8.2 implemented EntityPokestop
-
+Lottery that gives rewards based on the amount of identifiers on your Pokemon that are equal to the current Lottery.
 
 ## Installation
 
