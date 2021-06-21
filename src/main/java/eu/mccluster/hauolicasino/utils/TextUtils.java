@@ -1,6 +1,5 @@
-package eu.mccluster.hauolilottery.utils;
+package eu.mccluster.hauolicasino.utils;
 
-import eu.mccluster.hauolilottery.HauoliLottery;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;

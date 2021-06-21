@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery.objects;
+package eu.mccluster.hauolicasino.objects;
 
 import com.pixelmonmod.pixelmon.entities.pixelmon.abilities.AbilityBase;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;

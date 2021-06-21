@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery.utils;
+package eu.mccluster.hauolicasino.utils;
 
 import com.google.common.collect.Lists;
 import net.minecraft.util.text.ITextComponent;

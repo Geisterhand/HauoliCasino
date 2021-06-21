@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery.timer;
+package eu.mccluster.hauolicasino.timer;
 
 import ca.landonjw.gooeylibs2.implementation.tasks.Task;
 import com.pixelmonmod.pixelmon.entities.pixelmon.abilities.AbilityBase;
@@ -6,12 +6,12 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
-import eu.mccluster.hauolilottery.HauoliLottery;
-import eu.mccluster.hauolilottery.objects.LotteryObject;
-import eu.mccluster.hauolilottery.utils.GenLotteryPokemon;
-import eu.mccluster.hauolilottery.utils.Placeholder;
-import eu.mccluster.hauolilottery.utils.TextUtils;
-import eu.mccluster.hauolilottery.utils.TimeUtils;
+import eu.mccluster.hauolicasino.HauoliCasino;
+import eu.mccluster.hauolicasino.objects.LotteryObject;
+import eu.mccluster.hauolicasino.utils.GenLotteryPokemon;
+import eu.mccluster.hauolicasino.utils.Placeholder;
+import eu.mccluster.hauolicasino.utils.TextUtils;
+import eu.mccluster.hauolicasino.utils.TimeUtils;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -25,11 +25,11 @@ public class LotteryTimer {
                 .execute(() -> {
 
                     long remainingTime = 0;
-                    if(HauoliLottery._currentLottery.size() > 0) {
-                        remainingTime = new Date().getTime() - HauoliLottery._currentLottery.get(0).getDate().getTime();
+                    if(HauoliCasino._currentLottery.size() > 0) {
+                        remainingTime = new Date().getTime() - HauoliCasino._currentLottery.get(0).getDate().getTime();
                     }
 
-                    if(HauoliLottery._currentLottery.size() == 0) {
+                    if(HauoliCasino._currentLottery.size() == 0) {
                         short pokemonIndexNumber = GenLotteryPokemon.genPokemonNationalNumber();
                         EnumGrowth size = GenLotteryPokemon.genPokemonSize();
                         EnumNature nature = GenLotteryPokemon.genPokemonNature();
@@ -39,13 +39,13 @@ public class LotteryTimer {
                         Date date = new Date();
                         int statHeight = (int)(Math.random() * 31);
                         LotteryObject object = new LotteryObject(pokemonIndexNumber, size, nature, gender, ability, stats, statHeight, date);
-                        HauoliLottery._currentLottery.add(object);
-                        HauoliLottery.getData().lotteryData.add(object);
-                        HauoliLottery.getData().save();
+                        HauoliCasino._currentLottery.add(object);
+                        HauoliCasino.getData().lotteryData.add(object);
+                        HauoliCasino.getData().save();
                         reminder.set(0);
 
                     } else if(remainingTime > 0) {
-                       if (HauoliLottery._currentLottery.size() == 1 && TimeUnit.MILLISECONDS.toMinutes(remainingTime) > TimeUtils.parseCooldown(HauoliLottery.getConfig().cooldown)) {
+                       if (HauoliCasino._currentLottery.size() == 1 && TimeUnit.MILLISECONDS.toMinutes(remainingTime) > TimeUtils.parseCooldown(HauoliCasino.getConfig().cooldown)) {
                             short pokemonIndexNumber = GenLotteryPokemon.genPokemonNationalNumber();
                             EnumGrowth size = GenLotteryPokemon.genPokemonSize();
                             EnumNature nature = GenLotteryPokemon.genPokemonNature();
@@ -55,18 +55,18 @@ public class LotteryTimer {
                             Date date = new Date();
                            int statHeight = (int)(Math.random() * 31);
                             LotteryObject object = new LotteryObject(pokemonIndexNumber, size, nature, gender, ability, stats, statHeight, date);
-                            HauoliLottery._currentLottery.set(0, object);
-                            HauoliLottery.getData().lotteryData.set(0, object);
-                            HauoliLottery.getData().playerList.clear();
-                            HauoliLottery.getData().save();
+                            HauoliCasino._currentLottery.set(0, object);
+                            HauoliCasino.getData().lotteryData.set(0, object);
+                            HauoliCasino.getData().playerList.clear();
+                            HauoliCasino.getData().save();
                             reminder.set(0);
-                            if(HauoliLottery.getConfig().bcSettings.broadcastLottery) {
-                                TextUtils.broadcast(HauoliLottery.getConfig().bcSettings.lotteryMessage);
+                            if(HauoliCasino.getConfig().bcSettings.broadcastLottery) {
+                                TextUtils.broadcast(HauoliCasino.getConfig().bcSettings.lotteryMessage);
                             }
-                        } else if(HauoliLottery.getConfig().bcSettings.broadcastReminder) {
+                        } else if(HauoliCasino.getConfig().bcSettings.broadcastReminder) {
                            reminder.set(reminder.get() + 1);
-                           if(reminder.get() >= HauoliLottery.getConfig().bcSettings.reminderInterval * 2) {
-                               TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(HauoliLottery.getConfig().bcSettings.reminderMessage)));
+                           if(reminder.get() >= HauoliCasino.getConfig().bcSettings.reminderInterval * 2) {
+                               TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(HauoliCasino.getConfig().bcSettings.reminderMessage)));
                                reminder.set(0);
                            }
                        }

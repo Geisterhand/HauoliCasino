@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery.utils;
+package eu.mccluster.hauolicasino.utils;
 
 public class TimeUtils {
 

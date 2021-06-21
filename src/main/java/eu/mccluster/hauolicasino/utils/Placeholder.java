@@ -1,8 +1,7 @@
-package eu.mccluster.hauolilottery.utils;
+package eu.mccluster.hauolicasino.utils;
 
-import eu.mccluster.hauolilottery.HauoliLottery;
+import eu.mccluster.hauolicasino.HauoliCasino;
 import net.minecraft.entity.player.EntityPlayerMP;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +32,7 @@ public class Placeholder {
     }
 
     public static String currentPokemon(String text) {
-        text = text.replaceAll("%lotterypokemon%", GenLotteryPokemon.genPokemonName(HauoliLottery._currentLottery.get(0).getIndexNumber()));
+        text = text.replaceAll("%lotterypokemon%", GenLotteryPokemon.genPokemonName(HauoliCasino._currentLottery.get(0).getIndexNumber()));
         return TextUtils.regex(text);
     }
 
@@ -44,9 +43,9 @@ public class Placeholder {
         String hour;
         String minute;
 
-        long lastRotation = HauoliLottery._currentLottery.get(0).getDate().getTime();
+        long lastRotation = HauoliCasino._currentLottery.get(0).getDate().getTime();
         long remainingTime = time.getTime() - lastRotation;
-        long configCooldown = TimeUtils.parseCooldown(HauoliLottery.getConfig().cooldown);
+        long configCooldown = TimeUtils.parseCooldown(HauoliCasino.getConfig().cooldown);
         long toMinutes = TimeUnit.MILLISECONDS.toMinutes(remainingTime);
         long toHours = (configCooldown / 60L) - 1L - TimeUnit.MILLISECONDS.toHours(remainingTime);
 
@@ -55,13 +54,13 @@ public class Placeholder {
             String cooldownMinutes = Long.toString(60L - (toMinutes - (TimeUnit.MILLISECONDS.toHours(remainingTime) * 60L)));
 
             if(toHours > 1L) {
-                hour = HauoliLottery.getLang().pluralHour;
+                hour = HauoliCasino.getLang().pluralHour;
             } else {
-                hour = HauoliLottery.getLang().singularHour;
+                hour = HauoliCasino.getLang().singularHour;
             }
 
             if(toMinutes < 58L && toMinutes != 0L) {
-                minute = HauoliLottery.getLang().pluralMinute;
+                minute = HauoliCasino.getLang().pluralMinute;
             } else if(toMinutes == 0) {
                 toHours = toHours + 1L;
                 cooldownHour = Long.toString(toHours);
@@ -69,17 +68,17 @@ public class Placeholder {
                 text = text.replaceAll("%cooldownlottery%", cooldown);
                 return TextUtils.regex(text);
             } else {
-                minute = HauoliLottery.getLang().singularMinute;
+                minute = HauoliCasino.getLang().singularMinute;
             }
-            cooldown = cooldownHour + " " + hour + " " + HauoliLottery.getLang().participleAnd + " " + cooldownMinutes + " " + minute;
+            cooldown = cooldownHour + " " + hour + " " + HauoliCasino.getLang().participleAnd + " " + cooldownMinutes + " " + minute;
             text = text.replaceAll("%cooldownlottery%", cooldown);
             return TextUtils.regex(text);
         }
 
         if(toMinutes >= 1L && toMinutes < configCooldown) {
-            minute = HauoliLottery.getLang().pluralMinute;
+            minute = HauoliCasino.getLang().pluralMinute;
         } else {
-            minute = HauoliLottery.getLang().singularMinute;
+            minute = HauoliCasino.getLang().singularMinute;
         }
         cooldown = Long.toString(configCooldown - toMinutes);
         text = text.replaceAll("%cooldownlottery%", cooldown + " " + minute);

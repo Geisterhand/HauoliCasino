@@ -1,15 +1,12 @@
-package eu.mccluster.hauolilottery.utils;
+package eu.mccluster.hauolicasino.utils;
 
-import eu.mccluster.hauolilottery.HauoliLottery;
-import eu.mccluster.hauolilottery.config.LootTableStart;
+import eu.mccluster.hauolicasino.HauoliCasino;
+import eu.mccluster.hauolicasino.config.LootTableStart;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LootUtils {
 
@@ -21,10 +18,10 @@ public class LootUtils {
     public static void genLoot(EntityPlayerMP playerMP, int amount) {
 
         int raritySum;
-        LootTableStart _loottable = HauoliLottery.getLoot();
+        LootTableStart _loottable = HauoliCasino.getLoot();
 
-        if(HauoliLottery.getLoot().toggleExtraLoot && amount == 5) {
-            amount = amount + HauoliLottery.getLoot().extraLoot;
+        if(HauoliCasino.getLoot().toggleExtraLoot && amount == 5) {
+            amount = amount + HauoliCasino.getLoot().extraLoot;
         }
 
             raritySum = _loottable.loottable.lootData.stream().mapToInt(lootTableData -> lootTableData.lootRarity).sum();

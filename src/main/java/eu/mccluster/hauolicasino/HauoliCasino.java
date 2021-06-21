@@ -1,12 +1,12 @@
-package eu.mccluster.hauolilottery;
+package eu.mccluster.hauolicasino;
 
-import eu.mccluster.hauolilottery.commands.CommandRegistry;
-import eu.mccluster.hauolilottery.config.LangConfig;
-import eu.mccluster.hauolilottery.config.LootTableStart;
-import eu.mccluster.hauolilottery.config.MainConfig;
-import eu.mccluster.hauolilottery.config.Data;
-import eu.mccluster.hauolilottery.objects.LotteryObject;
-import eu.mccluster.hauolilottery.timer.LotteryTimer;
+import eu.mccluster.hauolicasino.commands.CommandRegistry;
+import eu.mccluster.hauolicasino.config.LangConfig;
+import eu.mccluster.hauolicasino.config.LootTableStart;
+import eu.mccluster.hauolicasino.config.MainConfig;
+import eu.mccluster.hauolicasino.config.Data;
+import eu.mccluster.hauolicasino.objects.LotteryObject;
+import eu.mccluster.hauolicasino.timer.LotteryTimer;
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class HauoliLottery {
+public class HauoliCasino {
 
     @Getter
     private static LootTableStart _loot;
@@ -32,7 +32,7 @@ public class HauoliLottery {
     private static Data _data;
 
     @Getter
-    private static HauoliLottery _instance;
+    private static HauoliCasino _instance;
 
     @Getter
     private static ConcurrentHashMap<UUID, List<ItemStack>> _playerLoot = new ConcurrentHashMap<>();
@@ -40,11 +40,11 @@ public class HauoliLottery {
     public static List<LotteryObject> _currentLottery = new ArrayList<>();
 
     @Getter
-    private final String _lootFolder = HauoliLotteryMod.getInstance().getDataFolder() + File.separator + "loottables" + File.separator;
+    private final String _lootFolder = HauoliCasinoMod.getInstance().getDataFolder() + File.separator + "loottables" + File.separator;
 
     public static void load() {
         if(_instance == null) {
-            _instance = new HauoliLottery();
+            _instance = new HauoliCasino();
         }
     }
 
@@ -56,10 +56,10 @@ public class HauoliLottery {
 
 
     private void onEnable(FMLServerStartingEvent event) {
-        _loot = new LootTableStart(new File(HauoliLotteryMod.getInstance().getDataFolder(), "Loottable.conf"));
-        _config = new MainConfig(new File(HauoliLotteryMod.getInstance().getDataFolder(), "HauoliLottery.conf"));
-        _lang = new LangConfig(new File(HauoliLotteryMod.getInstance().getDataFolder(), "Lang.conf"));
-        _data = new Data(new File(HauoliLotteryMod.getInstance().getDataFolder(), "Data.conf"));
+        _loot = new LootTableStart(new File(HauoliCasinoMod.getInstance().getDataFolder(), "Loottable.conf"));
+        _config = new MainConfig(new File(HauoliCasinoMod.getInstance().getDataFolder(), "HauoliLottery.conf"));
+        _lang = new LangConfig(new File(HauoliCasinoMod.getInstance().getDataFolder(), "Lang.conf"));
+        _data = new Data(new File(HauoliCasinoMod.getInstance().getDataFolder(), "Data.conf"));
         CommandRegistry.registerCommands(event);
         _instance.onReload();
         if(_data.lotteryData.size() == 1) {

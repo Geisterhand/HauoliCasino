@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery;
+package eu.mccluster.hauolicasino;
 
 
 import eu.mccluster.dependency.deploader.api.DependencyLoader;
@@ -14,24 +14,24 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 
 @Mod(
-        modid = "hauolilottery",
-        name = "HauoliLottery",
+        modid = "hauolicasino",
+        name = "HauoliCasino",
         version = "@VERSION@",
         acceptableRemoteVersions = "*"
 )
-public class HauoliLotteryMod {
+public class HauoliCasinoMod {
 
     private Logger logger;
 
     @Getter
-    private static HauoliLotteryMod _instance;
+    private static HauoliCasinoMod _instance;
 
     @Getter
     private File _dataFolder;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        _dataFolder = new File(event.getModConfigurationDirectory(), "hauolilottery");
+        _dataFolder = new File(event.getModConfigurationDirectory(), "hauolicasino");
         logger = event.getModLog();
     }
 
@@ -39,18 +39,18 @@ public class HauoliLotteryMod {
     public void load(FMLInitializationEvent event) {
         _instance = this;
         initDependencies();
-        HauoliLottery.load();
+        HauoliCasino.load();
     }
 
     @Mod.EventHandler
     public void serverStart(FMLServerStartingEvent event) {
-        HauoliLottery.enable(event);
-        logger.info("Started HauoliLottery!");
+        HauoliCasino.enable(event);
+        logger.info("Started HauoliCasino!");
     }
 
     @Mod.EventHandler
     public void started(FMLServerStartedEvent event) {
-        HauoliLottery.started();
+        HauoliCasino.started();
     }
 
     private void initDependencies() {

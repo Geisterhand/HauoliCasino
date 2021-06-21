@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery.commands;
+package eu.mccluster.hauolicasino.commands;
 
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 

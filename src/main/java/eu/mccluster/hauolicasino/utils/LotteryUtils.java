@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery.utils;
+package eu.mccluster.hauolicasino.utils;
 
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
@@ -8,7 +8,7 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
-import eu.mccluster.hauolilottery.HauoliLottery;
+import eu.mccluster.hauolicasino.HauoliCasino;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ public class LotteryUtils {
 
     public static boolean hasSameIV(PlayerPartyStorage party, StatsType statsType, int index) {
         int stat = party.getTeam().get(index).getIVs().getStat(statsType);
-        return stat == HauoliLottery._currentLottery.get(0).getStatHeight();
+        return stat == HauoliCasino._currentLottery.get(0).getStatHeight();
     }
 
     public static boolean isOriginalTrainer(EntityPlayerMP playerMP, Pokemon pokemon) {

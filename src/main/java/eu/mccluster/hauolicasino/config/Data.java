@@ -1,9 +1,9 @@
-package eu.mccluster.hauolilottery.config;
+package eu.mccluster.hauolicasino.config;
 
 import eu.mccluster.dependency.configmanager.api.Config;
 import eu.mccluster.dependency.configmanager.api.annotations.Order;
 import eu.mccluster.dependency.configmanager.api.annotations.Skip;
-import eu.mccluster.hauolilottery.objects.LotteryObject;
+import eu.mccluster.hauolicasino.objects.LotteryObject;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -18,11 +18,11 @@ loaderVersion="[24,)" #mandatory
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
-modId="hauolilottery" #mandatory
+modId="hauolicasino" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
 version="${version}" #mandatory
 # A display name for the mod
-displayName="HauoliLottery" #mandatory
+displayName="HauoliCasino" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
 #updateJSONURL="http://github.com/YourName/Your-Mod-Name/update.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -34,7 +34,7 @@ displayURL="" #optional
 # A text field displayed in the mod UI
 authors="Geisterhand" #optional
 # The description text for the mod (multi line!) (#mandatory)
-description='HauoliLottery'
+description='HauoliCasino'
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.hauolilottery]] #optional
@@ -50,7 +50,7 @@ ordering="NONE"
 side="BOTH"
 
 # Here's another dependency
-[[dependencies.hauolilottery]]
+[[dependencies.hauolicasino]]
 modId="minecraft"
 mandatory=true
 versionRange="[1.12.2]"

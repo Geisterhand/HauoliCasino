@@ -1,7 +1,7 @@
-package eu.mccluster.hauolilottery.commands;
+package eu.mccluster.hauolicasino.commands;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
-import eu.mccluster.hauolilottery.menu.LotteryInventory;
+import eu.mccluster.hauolicasino.menu.PokeLotteryInventory;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -22,13 +22,13 @@ public class OpenLottery extends CommandBase {
 
     @Override
     public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return sender.canUseCommand(4, "hauolilottery.openlottery");
+        return sender.canUseCommand(4, "hauolicasino.openlottery");
     }
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
         EntityPlayerMP player = (EntityPlayerMP) sender;
-        UIManager.openUIForcefully((EntityPlayerMP) sender, LotteryInventory.createPage(player));
+        UIManager.openUIForcefully((EntityPlayerMP) sender, PokeLotteryInventory.createPage(player));
     }
 }

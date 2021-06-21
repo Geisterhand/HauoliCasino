@@ -1,4 +1,4 @@
-package eu.mccluster.hauolilottery.config;
+package eu.mccluster.hauolicasino.config;
 
 import eu.mccluster.dependency.configmanager.api.Config;
 import eu.mccluster.dependency.configmanager.api.annotations.Comment;
@@ -15,7 +15,7 @@ public class LangConfig extends Config {
     File _langFile;
 
     @Order(1)
-    public String glassPanes = "§6§lHauiliLottery";
+    public String glassPanes = "§6§lHauiliCasino";
 
     @Order(2)
     public String requirmentTrue = "§2You fulfill this requirement!";
@@ -76,7 +76,7 @@ public class LangConfig extends Config {
     public String titleTime = "§6§l§nLottery Time";
 
     @Order(20)
-    public String titleMenu = "§c§lHaouliLottery";
+    public String titleMenu = "§c§lHaouliCasino";
 
     @Order(21)
     public String colorPokemon = "§6§l§n";
