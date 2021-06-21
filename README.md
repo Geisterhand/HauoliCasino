@@ -10,14 +10,14 @@ Additional Information:
 A private DependencyLoader from https://github.com/HexagonMC is used. The DependencyLoader loads a private ConfigManager.
 
 Commands:
-- /haoulilottery
-- /haoulireload
+- /pokelottery
+- /casinoreload
 
 ## Permissions
 
 Permissions:
-- haoulilottery.openlottery
-- haoulilottery.reload
+- haoulicasino.openlottery
+- haoulicasino.reload
 
 ## Support
 
