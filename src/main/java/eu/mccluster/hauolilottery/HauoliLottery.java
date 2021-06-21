@@ -59,7 +59,7 @@ public class HauoliLottery {
         _loot = new LootTableStart(new File(HauoliLotteryMod.getInstance().getDataFolder(), "Loottable.conf"));
         _config = new MainConfig(new File(HauoliLotteryMod.getInstance().getDataFolder(), "HauoliLottery.conf"));
         _lang = new LangConfig(new File(HauoliLotteryMod.getInstance().getDataFolder(), "Lang.conf"));
-        _data = new Data(new File(HauoliLotteryMod.getInstance().getDataFolder(), "PlayerData.conf"));
+        _data = new Data(new File(HauoliLotteryMod.getInstance().getDataFolder(), "Data.conf"));
         CommandRegistry.registerCommands(event);
         _instance.onReload();
         if(_data.lotteryData.size() == 1) {

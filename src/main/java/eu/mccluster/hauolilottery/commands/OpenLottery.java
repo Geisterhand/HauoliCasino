@@ -12,12 +12,12 @@ import net.minecraft.server.MinecraftServer;
 public class OpenLottery extends CommandBase {
     @Override
     public String getName() {
-        return "haoulilottery";
+        return "pokelottery";
     }
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/haoulilottery";
+        return "/pokelottery";
     }
 
     @Override

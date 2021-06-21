@@ -19,7 +19,14 @@ public class MainConfig extends Config {
     public String cooldown = "24h";
 
     @Order(2)
+    @Comment("Toggles if the player has to be the original trainer of the pokemon")
+    public boolean originalTrainer = true;
+
+    @Order(3)
     public BroadcastSettings bcSettings = new BroadcastSettings();
+
+    @Order(4)
+    public InventoryItems inventorySettings = new InventoryItems();
 
     @Override
     public File getFile() {

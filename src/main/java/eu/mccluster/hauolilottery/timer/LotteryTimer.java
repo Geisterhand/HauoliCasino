@@ -9,15 +9,18 @@ import com.pixelmonmod.pixelmon.enums.EnumNature;
 import eu.mccluster.hauolilottery.HauoliLottery;
 import eu.mccluster.hauolilottery.objects.LotteryObject;
 import eu.mccluster.hauolilottery.utils.GenLotteryPokemon;
+import eu.mccluster.hauolilottery.utils.Placeholder;
 import eu.mccluster.hauolilottery.utils.TextUtils;
 import eu.mccluster.hauolilottery.utils.TimeUtils;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LotteryTimer {
 
     public static void timer() {
+        AtomicInteger reminder = new AtomicInteger();
         Task.builder()
                 .execute(() -> {
 
@@ -39,6 +42,7 @@ public class LotteryTimer {
                         HauoliLottery._currentLottery.add(object);
                         HauoliLottery.getData().lotteryData.add(object);
                         HauoliLottery.getData().save();
+                        reminder.set(0);
 
                     } else if(remainingTime > 0) {
                        if (HauoliLottery._currentLottery.size() == 1 && TimeUnit.MILLISECONDS.toMinutes(remainingTime) > TimeUtils.parseCooldown(HauoliLottery.getConfig().cooldown)) {
@@ -55,12 +59,19 @@ public class LotteryTimer {
                             HauoliLottery.getData().lotteryData.set(0, object);
                             HauoliLottery.getData().playerList.clear();
                             HauoliLottery.getData().save();
+                            reminder.set(0);
                             if(HauoliLottery.getConfig().bcSettings.broadcastLottery) {
                                 TextUtils.broadcast(HauoliLottery.getConfig().bcSettings.lotteryMessage);
                             }
-
-                        }
+                        } else if(HauoliLottery.getConfig().bcSettings.broadcastReminder) {
+                           reminder.set(reminder.get() + 1);
+                           if(reminder.get() >= HauoliLottery.getConfig().bcSettings.reminderInterval * 2) {
+                               TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(HauoliLottery.getConfig().bcSettings.reminderMessage)));
+                               reminder.set(0);
+                           }
+                       }
                     }
+
                 })
                 .infinite()
                 .interval(600)

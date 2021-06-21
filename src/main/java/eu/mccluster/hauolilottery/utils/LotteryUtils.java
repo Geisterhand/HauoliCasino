@@ -97,4 +97,21 @@ public class LotteryUtils {
         return stat == HauoliLottery._currentLottery.get(0).getStatHeight();
     }
 
+    public static boolean isOriginalTrainer(EntityPlayerMP playerMP, Pokemon pokemon) {
+        Optional<PlayerPartyStorage> partyStorageOptional = Optional.ofNullable(Pixelmon.storageManager.getParty(playerMP.getUniqueID()));
+        if (!partyStorageOptional.isPresent()) {
+            return false;
+        }
+
+        PlayerPartyStorage party = partyStorageOptional.get();
+
+        for (int i = 0; i < party.getTeam().size(); i++) {
+            if (isLotteryPokemon(party, i, pokemon) && party.getTeam().get(i).getOriginalTrainerUUID() == playerMP.getUniqueID()) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
 }

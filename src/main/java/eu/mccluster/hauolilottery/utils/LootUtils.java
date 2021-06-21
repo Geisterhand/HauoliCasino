@@ -4,6 +4,8 @@ import eu.mccluster.hauolilottery.HauoliLottery;
 import eu.mccluster.hauolilottery.config.LootTableStart;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
@@ -16,11 +18,14 @@ public class LootUtils {
         return itemStack;
     }
 
-    public static void genLoot(EntityPlayerMP playerMP,int amount) {
+    public static void genLoot(EntityPlayerMP playerMP, int amount) {
 
         int raritySum;
-        List<ItemStack> outList = new ArrayList<>();;
         LootTableStart _loottable = HauoliLottery.getLoot();
+
+        if(HauoliLottery.getLoot().toggleExtraLoot && amount == 5) {
+            amount = amount + HauoliLottery.getLoot().extraLoot;
+        }
 
             raritySum = _loottable.loottable.lootData.stream().mapToInt(lootTableData -> lootTableData.lootRarity).sum();
             for (int i = 0; i < amount; i++) {
@@ -32,10 +37,16 @@ public class LootUtils {
                     b = _loottable.loottable.lootData.get(listEntry).lootRarity + b;
 
                 }
-                ItemStack rewardItem = itemStackFromType(_loottable.loottable.lootData.get(listEntry).loot, _loottable.loottable.lootData.get(listEntry).lootAmount);
-                outList.add(rewardItem);
+
+                if(!_loottable.loottable.lootData.get(listEntry).loot.startsWith("command>")) {
+                    ItemStack rewardItem = itemStackFromType(_loottable.loottable.lootData.get(listEntry).loot, _loottable.loottable.lootData.get(listEntry).lootAmount);
+                    playerMP.inventory.addItemStackToInventory(rewardItem);
+                } else {
+                    String command = _loottable.loottable.lootData.get(listEntry).loot.replaceAll("command>", "");
+                    MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+                    server.getCommandManager().executeCommand(server, Placeholder.parsePlayer(command, playerMP));
+                }
             }
-        HauoliLottery.getPlayerLoot().put(playerMP.getUniqueID(), outList);
         }
     }
 

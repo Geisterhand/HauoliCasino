@@ -1,16 +1,39 @@
 package eu.mccluster.hauolilottery.utils;
 
 import eu.mccluster.hauolilottery.HauoliLottery;
+import net.minecraft.entity.player.EntityPlayerMP;
+import org.lwjgl.Sys;
 
-import javax.management.remote.rmi.RMIConnectionImpl;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Placeholder {
 
     public static String lootAmount(String text, int equals) {
         text = text.replaceAll("%loot%", Integer.toString(equals));
-        System.out.println(text);
+        return TextUtils.regex(text);
+    }
+
+    public static String parsePlayer(String text, EntityPlayerMP player) {
+        text = text.replaceAll("%player%", player.getName());
+        return text;
+    }
+
+    public static List<String> lootAmountList(List<String> stringList, int equals) {
+        List<String> returnList = new ArrayList<>();
+        for(String s : stringList) {
+            if(s.contains("%loot%")) {
+                s = s.replaceAll("%loot%", Integer.toString(equals));
+            }
+            returnList.add(s);
+        }
+        return returnList;
+    }
+
+    public static String currentPokemon(String text) {
+        text = text.replaceAll("%lotterypokemon%", GenLotteryPokemon.genPokemonName(HauoliLottery._currentLottery.get(0).getIndexNumber()));
         return TextUtils.regex(text);
     }
 
@@ -48,12 +71,12 @@ public class Placeholder {
             } else {
                 minute = HauoliLottery.getLang().singularMinute;
             }
-            cooldown = cooldownHour + " " + hour + " and " + cooldownMinutes + " " + minute;
-            text = text.replaceAll("%cooldownlottery", cooldown);
+            cooldown = cooldownHour + " " + hour + " " + HauoliLottery.getLang().participleAnd + " " + cooldownMinutes + " " + minute;
+            text = text.replaceAll("%cooldownlottery%", cooldown);
             return TextUtils.regex(text);
         }
 
-        if(toMinutes > 1L) {
+        if(toMinutes >= 1L && toMinutes < configCooldown) {
             minute = HauoliLottery.getLang().pluralMinute;
         } else {
             minute = HauoliLottery.getLang().singularMinute;

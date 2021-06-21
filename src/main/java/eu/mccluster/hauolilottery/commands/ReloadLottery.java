@@ -10,7 +10,7 @@ import net.minecraft.server.MinecraftServer;
 public class ReloadLottery extends CommandBase {
     @Override
     public String getName() {
-        return "hauolireload";
+        return "lotteryreload";
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ReloadLottery extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/hauolireload";
+        return "/lotteryreload";
     }
 
     @Override

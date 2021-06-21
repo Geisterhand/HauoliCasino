@@ -6,6 +6,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,10 +28,22 @@ public class TextUtils {
         return text;
     }
 
+    public static List<String> regexList(List<String> stringList) {
+        List<String> returnList = new ArrayList<>();
+        for (String s : stringList) {
+            Matcher matcher = pattern.matcher(s);
+            if (matcher.find()) {
+                s = s.replaceAll(regex, "§");
+            }
+            returnList.add(s);
+        }
+        return returnList;
+    }
+
     public static void broadcast(String broadcast) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         for(EntityPlayerMP p : server.getPlayerList().getPlayers()) {
-            p.sendMessage(toText(regex(HauoliLottery.getConfig().bcSettings.lotteryMessage)));
+            p.sendMessage(toText(regex(broadcast)));
         }
     }
 }
