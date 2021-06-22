@@ -1,4 +1,4 @@
-package eu.mccluster.hauolicasino.config;
+package eu.mccluster.hauolicasino.config.pokelottery;
 import eu.mccluster.dependency.configmanager.api.Config;
 import eu.mccluster.dependency.configmanager.api.annotations.Order;
 

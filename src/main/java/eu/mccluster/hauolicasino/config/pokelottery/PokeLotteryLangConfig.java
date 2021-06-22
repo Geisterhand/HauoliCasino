@@ -1,4 +1,4 @@
-package eu.mccluster.hauolicasino.config;
+package eu.mccluster.hauolicasino.config.pokelottery;
 
 import eu.mccluster.dependency.configmanager.api.Config;
 import eu.mccluster.dependency.configmanager.api.annotations.Comment;
@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LangConfig extends Config {
+public class PokeLotteryLangConfig extends Config {
 
     @Skip
     File _langFile;
@@ -24,19 +24,24 @@ public class LangConfig extends Config {
     public String requirementFalse = "§4You dont have the required identifier!";
 
     @Order(4)
-    public String reqGrowth = "§6Required Growth:";
+    @Comment("Placerholder: %growth%")
+    public List<String> reqGrowth = new ArrayList<>();
 
     @Order(5)
-    public String reqNature = "§6Required Nature:";
+    @Comment("Placerholder: %nature%")
+    public List<String> reqNature = new ArrayList<>();
 
     @Order(6)
-    public String reqGender = "§6Required Gender:";
+    @Comment("Placerholder: %gender%")
+    public List<String> reqGender = new ArrayList<>();
 
     @Order(7)
-    public String reqAbility = "§6Required Ability:";
+    @Comment("Placerholder: %ability%")
+    public List<String> reqAbility = new ArrayList<>();
 
     @Order(8)
-    public String reqStat = "§6Required IV-Stat:";
+    @Comment("Placerholder: %stat%")
+    public List<String> reqStat = new ArrayList<>();
 
     @Order(9)
     @Comment("With %loot% you return the amount of loot you get from the Loottable")
@@ -100,8 +105,13 @@ public class LangConfig extends Config {
     @Comment("With %cooldownlottery% you return the remaining time of the Lottery.")
     public String remainingTime = "§2§lThe next lottery starts in %cooldownlottery%";
 
-    public LangConfig(File file) {
+    public PokeLotteryLangConfig(File file) {
         _langFile = file;
+        reqGrowth.add("§6Required Growth: %growth%");
+        reqNature.add("§6Required Nature: %nature%");
+        reqGender.add("§6Required Gender: %gender%");
+        reqAbility.add("§6Required Ability: %ability%");
+        reqStat.add("§6Required IV-Stat: %stat%");
         canClaim.add("§6You'll receive %loot% out of 5 rewards");
         canClaim.add("§4§cYou cant claim the rewards again for the remaining duration");
         canClaim.add("§4§cof the lottery, if you take them now!");

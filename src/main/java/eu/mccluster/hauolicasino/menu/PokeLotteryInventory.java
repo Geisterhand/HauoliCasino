@@ -14,9 +14,9 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
 import eu.mccluster.hauolicasino.HauoliCasino;
-import eu.mccluster.hauolicasino.config.LangConfig;
-import eu.mccluster.hauolicasino.config.Data;
-import eu.mccluster.hauolicasino.config.MainConfig;
+import eu.mccluster.hauolicasino.config.pokelottery.PokeLotteryLangConfig;
+import eu.mccluster.hauolicasino.config.pokelottery.Data;
+import eu.mccluster.hauolicasino.config.pokelottery.PokeLotteryConfig;
 import eu.mccluster.hauolicasino.objects.LotteryObject;
 import eu.mccluster.hauolicasino.utils.*;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -31,9 +31,9 @@ public class PokeLotteryInventory {
 
     public static Page createPage(EntityPlayerMP playerMP) {
 
-        LangConfig _lang = HauoliCasino.getLang();
+        PokeLotteryLangConfig _lang = HauoliCasino.getLang();
         Data _data = HauoliCasino.getData();
-        MainConfig _config = HauoliCasino.getConfig();
+        PokeLotteryConfig _config = HauoliCasino.getConfig();
         LotteryObject _object = HauoliCasino._currentLottery.get(0);
 
         short pokemonIndexNumber = _object.getIndexNumber();
@@ -67,6 +67,8 @@ public class PokeLotteryInventory {
 
         int equals = LotteryUtils.equalSize(checks);
 
+
+
         if(_data.playerList.contains(playerMP.getUniqueID().toString())) {
             claimItem = LootUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
             claimable.set(false);
@@ -94,55 +96,62 @@ public class PokeLotteryInventory {
             loreClaim = _lang.canClaim;
         }
 
+
+
         if(!checks.get(0)) {
             sizeItem = LootUtils.itemStackFromType(_config.inventorySettings.growthNotFulfilled, 1);
             loreSize.add(_lang.requirementFalse);
-            loreSize.add(_lang.reqGrowth + " " + _data.lotteryData.get(0).getGrowth().name());
         } else {
             sizeItem = LootUtils.itemStackFromType(_config.inventorySettings.growthFulfilled, 1);
             loreSize.add(_lang.requirmentTrue);
-            loreSize.add(_lang.reqGrowth + " " + _data.lotteryData.get(0).getGrowth().name());
         }
+        loreSize.addAll(_lang.reqGrowth);
+
+
 
         if(!checks.get(1)) {
             natureItem = LootUtils.itemStackFromType(_config.inventorySettings.natureNotFulfilled, 1);
             loreNature.add(_lang.requirementFalse);
-            loreNature.add(_lang.reqNature + " " + _data.lotteryData.get(0).getNature().name());
         } else {
             natureItem = LootUtils.itemStackFromType(_config.inventorySettings.natureFulfilled, 1);
             loreNature.add(_lang.requirmentTrue);
-            loreNature.add(_lang.reqNature + " " + _data.lotteryData.get(0).getNature().name());
         }
+        loreNature.addAll(_lang.reqNature);
+
+
 
         if(!checks.get(2)) {
             genderItem = LootUtils.itemStackFromType(_config.inventorySettings.genderNotFulfilled, 1);
             loreGender.add(_lang.requirementFalse);
-            loreGender.add(_lang.reqGender + " " + _data.lotteryData.get(0).getGender().name());
         } else {
             genderItem = LootUtils.itemStackFromType(_config.inventorySettings.genderFulfilled, 1);
             loreGender.add(_lang.requirmentTrue);
-            loreGender.add(_lang.reqGender + " " + _data.lotteryData.get(0).getGender().name());
         }
+        loreGender.addAll(_lang.reqGender);
+
+
 
         if(!checks.get(3)) {
-                abilityItem = LootUtils.itemStackFromType(_config.inventorySettings.abilityNotFulfilled, 1);
-                loreAbility.add(_lang.requirementFalse);
-                loreAbility.add(_lang.reqAbility + " " + ability.getName());
-            } else {
-                abilityItem = LootUtils.itemStackFromType(_config.inventorySettings.abilityFulfilled, 1);
-                loreAbility.add(_lang.requirmentTrue);
-                loreAbility.add(_lang.reqAbility + " " + ability.getName());
-            }
+            abilityItem = LootUtils.itemStackFromType(_config.inventorySettings.abilityNotFulfilled, 1);
+            loreAbility.add(_lang.requirementFalse);
+        } else {
+            abilityItem = LootUtils.itemStackFromType(_config.inventorySettings.abilityFulfilled, 1);
+            loreAbility.add(_lang.requirmentTrue);
+        }
+        loreAbility.addAll(_lang.reqAbility);
+
+
 
         if(!checks.get(4)) {
             statItem = LootUtils.itemStackFromType(_config.inventorySettings.ivNotFulfilled, 1);
             loreStat.add(_lang.requirementFalse);
-            loreStat.add(_lang.reqStat + " " + _data.lotteryData.get(0).getStat().name() + " " + _data.lotteryData.get(0).getStatHeight());
         } else {
             statItem = LootUtils.itemStackFromType(_config.inventorySettings.ivFulfilled, 1);
             loreStat.add(_lang.requirmentTrue);
-            loreStat.add(_lang.reqStat + " " + _data.lotteryData.get(0).getStat().name() + " " + _data.lotteryData.get(0).getStatHeight());
         }
+        loreStat.addAll(_lang.reqStat);
+
+
 
         Button outerPanes = GooeyButton.builder()
                 .display(new ItemStack(Blocks.STAINED_GLASS_PANE, 1, _config.inventorySettings.outsideGlassPaneColor))
@@ -183,31 +192,31 @@ public class PokeLotteryInventory {
         Button requirementSize = GooeyButton.builder()
                 .display(sizeItem)
                 .title(TextUtils.regex(_lang.titleGrowth))
-                .lore(loreSize)
+                .lore(TextUtils.regexList(Placeholder.currentGrowth(loreSize)))
                 .build();
 
         Button requirementNature = GooeyButton.builder()
                 .display(natureItem)
                 .title(TextUtils.regex(_lang.titleNature))
-                .lore(loreNature)
+                .lore(TextUtils.regexList(Placeholder.currentNature(loreNature)))
                 .build();
 
         Button requirementGender = GooeyButton.builder()
                 .display(genderItem)
                 .title(TextUtils.regex(_lang.titleGender))
-                .lore(loreGender)
+                .lore(TextUtils.regexList(Placeholder.currentGender(loreGender)))
                 .build();
 
         Button requirementAbility = GooeyButton.builder()
                 .display(abilityItem)
                 .title(TextUtils.regex(_lang.titleAbility))
-                .lore(loreAbility)
+                .lore(TextUtils.regexList(Placeholder.currentAbility(loreAbility)))
                 .build();
 
         Button requirementStat = GooeyButton.builder()
                 .display(statItem)
                 .title(TextUtils.regex(_lang.titleIV))
-                .lore(loreStat)
+                .lore(TextUtils.regexList(Placeholder.currentStat(loreStat)))
                 .build();
 
         Template template = ChestTemplate.builder(5)

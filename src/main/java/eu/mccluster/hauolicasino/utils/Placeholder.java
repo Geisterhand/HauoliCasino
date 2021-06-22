@@ -36,6 +36,52 @@ public class Placeholder {
         return TextUtils.regex(text);
     }
 
+    public static List<String> currentGrowth(List<String> stringList) {
+        List<String> returnList = new ArrayList<>();
+        for(String s : stringList) {
+            s = s.replaceAll("%growth%", HauoliCasino._currentLottery.get(0).getGrowth().toString());
+            returnList.add(s);
+        }
+        return returnList;
+    }
+
+    public static List<String> currentNature(List<String> stringList) {
+        List<String> returnList = new ArrayList<>();
+        for(String s : stringList) {
+            s = s.replaceAll("%nature%", HauoliCasino._currentLottery.get(0).getNature().toString());
+            returnList.add(s);
+        }
+        return returnList;
+    }
+
+    public static List<String> currentGender(List<String> stringList) {
+        List<String> returnList = new ArrayList<>();
+        for(String s : stringList) {
+            s = s.replaceAll("%gender%", HauoliCasino._currentLottery.get(0).getGender().toString());
+            returnList.add(s);
+        }
+        return returnList;
+    }
+
+    public static List<String> currentAbility(List<String> stringList) {
+        List<String> returnList = new ArrayList<>();
+        for(String s : stringList) {
+            s = s.replaceAll("%ability%", HauoliCasino._currentLottery.get(0).getAbility().get().getName());
+            returnList.add(s);
+        }
+        return returnList;
+    }
+
+    public static List<String> currentStat(List<String> stringList) {
+        List<String> returnList = new ArrayList<>();
+        for(String s : stringList) {
+            s = s.replaceAll("%stat%", HauoliCasino._currentLottery.get(0).getStat().toString() + " " + HauoliCasino._currentLottery.get(0).getStatHeight());
+            returnList.add(s);
+        }
+        return returnList;
+    }
+
+
     public static String remainingTime(String text) {
 
         Date time = new Date();

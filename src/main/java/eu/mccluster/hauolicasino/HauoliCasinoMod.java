@@ -50,7 +50,9 @@ public class HauoliCasinoMod {
 
     @Mod.EventHandler
     public void started(FMLServerStartedEvent event) {
-        HauoliCasino.started();
+        if(HauoliCasino.getModule().modulePokeLottery) {
+            HauoliCasino.started();
+        }
     }
 
     private void initDependencies() {

@@ -1,4 +1,4 @@
-package eu.mccluster.hauolicasino.config;
+package eu.mccluster.hauolicasino.config.pokelottery;
 
 import eu.mccluster.dependency.configmanager.api.Config;
 import eu.mccluster.dependency.configmanager.api.annotations.Comment;
@@ -9,12 +9,14 @@ import java.io.File;
 public class BroadcastSettings extends Config {
 
     @Order(1)
+    @Comment("Toggles if a new PokeLottery will be broadcasted")
     public boolean broadcastLottery = false;
 
     @Order(2)
     public String lotteryMessage = "[§dHauoliCasino§r] §6§lA new Lottery has started!";
 
     @Order(3)
+    @Comment("Toggles if player should be remindered of the current PokeLottery")
     public boolean broadcastReminder = false;
 
     @Order(4)

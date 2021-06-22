@@ -1,10 +1,11 @@
 package eu.mccluster.hauolicasino;
 
 import eu.mccluster.hauolicasino.commands.CommandRegistry;
-import eu.mccluster.hauolicasino.config.LangConfig;
-import eu.mccluster.hauolicasino.config.LootTableStart;
-import eu.mccluster.hauolicasino.config.MainConfig;
-import eu.mccluster.hauolicasino.config.Data;
+import eu.mccluster.hauolicasino.config.HauoliCasinoConfig;
+import eu.mccluster.hauolicasino.config.pokelottery.PokeLotteryLangConfig;
+import eu.mccluster.hauolicasino.config.pokelottery.LootTableStart;
+import eu.mccluster.hauolicasino.config.pokelottery.PokeLotteryConfig;
+import eu.mccluster.hauolicasino.config.pokelottery.Data;
 import eu.mccluster.hauolicasino.objects.LotteryObject;
 import eu.mccluster.hauolicasino.timer.LotteryTimer;
 import lombok.Getter;
@@ -23,13 +24,16 @@ public class HauoliCasino {
     private static LootTableStart _loot;
 
     @Getter
-    private static MainConfig _config;
+    private static PokeLotteryConfig _config;
 
     @Getter
-    private static LangConfig _lang;
+    private static PokeLotteryLangConfig _lang;
 
     @Getter
     private static Data _data;
+
+    @Getter
+    private static HauoliCasinoConfig _module;
 
     @Getter
     private static HauoliCasino _instance;
@@ -40,7 +44,7 @@ public class HauoliCasino {
     public static List<LotteryObject> _currentLottery = new ArrayList<>();
 
     @Getter
-    private final String _lootFolder = HauoliCasinoMod.getInstance().getDataFolder() + File.separator + "loottables" + File.separator;
+    private final String _pokeLotteryFolder = HauoliCasinoMod.getInstance().getDataFolder() + File.separator + "pokelottery" + File.separator;
 
     public static void load() {
         if(_instance == null) {
@@ -56,13 +60,15 @@ public class HauoliCasino {
 
 
     private void onEnable(FMLServerStartingEvent event) {
-        _loot = new LootTableStart(new File(HauoliCasinoMod.getInstance().getDataFolder(), "Loottable.conf"));
-        _config = new MainConfig(new File(HauoliCasinoMod.getInstance().getDataFolder(), "HauoliLottery.conf"));
-        _lang = new LangConfig(new File(HauoliCasinoMod.getInstance().getDataFolder(), "Lang.conf"));
-        _data = new Data(new File(HauoliCasinoMod.getInstance().getDataFolder(), "Data.conf"));
+        _loot = new LootTableStart(new File(_pokeLotteryFolder, "Loottable.conf"));
+        _config = new PokeLotteryConfig(new File(_pokeLotteryFolder, "PokeLottery.conf"));
+        _lang = new PokeLotteryLangConfig(new File(_pokeLotteryFolder, "Lang.conf"));
+        _data = new Data(new File(_pokeLotteryFolder, "Data.conf"));
+        _module = new HauoliCasinoConfig(new File(HauoliCasinoMod.getInstance().getDataFolder(), "HauoliCasino.conf"));
         CommandRegistry.registerCommands(event);
         _instance.onReload();
-        if(_data.lotteryData.size() == 1) {
+        _module.load();
+        if(_data.lotteryData.size() == 1 && _module.modulePokeLottery) {
             _currentLottery.add(_data.lotteryData.get(0));
         }
     }

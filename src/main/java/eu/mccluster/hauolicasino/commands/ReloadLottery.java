@@ -26,6 +26,6 @@ public class ReloadLottery extends CommandBase {
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         HauoliCasino.getInstance().onReload();
-        sender.sendMessage(TextUtils.toText("[&dHauoliLottery&r] &4Successfully reloaded Mod."));
+        sender.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4Successfully reloaded Mod."));
     }
 }

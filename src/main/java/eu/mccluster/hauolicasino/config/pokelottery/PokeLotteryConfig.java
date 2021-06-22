@@ -1,4 +1,4 @@
-package eu.mccluster.hauolicasino.config;
+package eu.mccluster.hauolicasino.config.pokelottery;
 
 import eu.mccluster.dependency.configmanager.api.Config;
 import eu.mccluster.dependency.configmanager.api.annotations.Comment;
@@ -7,15 +7,15 @@ import eu.mccluster.dependency.configmanager.api.annotations.Skip;
 
 import java.io.File;
 
-public class MainConfig extends Config {
+public class PokeLotteryConfig extends Config {
 
     @Skip
     File _configFile;
 
-    public MainConfig(File file) { _configFile = file; }
+    public PokeLotteryConfig(File file) { _configFile = file; }
 
     @Order(1)
-    @Comment("Cooldown to collect the Pokestop again. Add a m, h or d to the number to change the cooldown to Minutes, Hours or Days")
+    @Comment("Cooldown for the next lottery. Add a m, h or d to the number to change the cooldown to Minutes, Hours or Days")
     public String cooldown = "24h";
 
     @Order(2)

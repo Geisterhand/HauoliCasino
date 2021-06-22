@@ -1,4 +1,4 @@
-package eu.mccluster.hauolicasino.config;
+package eu.mccluster.hauolicasino.config.pokelottery;
 
 import eu.mccluster.dependency.configmanager.api.Config;
 import eu.mccluster.dependency.configmanager.api.annotations.Comment;
@@ -23,7 +23,7 @@ public class LootTableStart extends Config {
     public int extraLoot = 3;
 
 
-    @Order(1)
+    @Order(3)
     public LootTableConfig loottable = new LootTableConfig();
 
     @Override
