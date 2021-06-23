@@ -67,8 +67,6 @@ public class PokeLotteryInventory {
 
         int equals = LotteryUtils.equalSize(checks);
 
-
-
         if(_data.playerList.contains(playerMP.getUniqueID().toString())) {
             claimItem = LootUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
             claimable.set(false);

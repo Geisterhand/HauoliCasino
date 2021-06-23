@@ -34,32 +34,52 @@ public class LotteryUtils {
     }
 
     public static boolean isLotteryPokemon(PlayerPartyStorage party, int index, Pokemon pokemon) {
-        return party.getTeam().get(index).getTranslatedName().equals(pokemon.getTranslatedName());
+        return party.getTeam().get(index).getUnlocalizedName().equals(pokemon.getUnlocalizedName());
     }
 
     public static List<Boolean> checkPokemon(EntityPlayerMP playerMP, Pokemon pokemon, EnumGrowth size, EnumNature nature, Gender gender, AbilityBase ability, StatsType stat) {
         List<Boolean> checks = new ArrayList<>();
+        List<Boolean> highestChecks = new ArrayList<>();
         Optional<PlayerPartyStorage> partyStorageOptional = Optional.ofNullable(Pixelmon.storageManager.getParty(playerMP.getUniqueID()));
         if (!partyStorageOptional.isPresent()) {
             return checks;
         }
 
-        PlayerPartyStorage party = partyStorageOptional.get();
-
-        for (int i = 0; i < party.getTeam().size(); i++) {
-            if (isLotteryPokemon(party, i, pokemon)) {
-                checks.add(hasSameGrowth(party, size, i));
-                checks.add(hasSameNature(party, nature, i));
-                checks.add(hasSameGender(party, gender, i));
-                checks.add(hasSameAbility(party, ability, i));
-                checks.add(hasSameIV(party, stat, i));
-                return checks;
-            }
-        }
         for (int i = 0; i < 5; i++) {
             checks.add(false);
         }
-        return checks;
+
+        for (int i = 0; i < 5; i++) {
+            highestChecks.add(false);
+        }
+
+        PlayerPartyStorage party = partyStorageOptional.get();
+
+        int equal;
+        int highestEqual = 0;
+
+        for (int i = 0; i < party.getTeam().size(); i++) {
+            if (isLotteryPokemon(party, i, pokemon)) {
+                checks.set(0, hasSameGrowth(party, size, i));
+                checks.set(1, hasSameNature(party, nature, i));
+                checks.set(2, hasSameGender(party, gender, i));
+                checks.set(3, hasSameAbility(party, ability, i));
+                checks.set(4, hasSameIV(party, stat, i));
+                equal = 0;
+                for(int c = 0; c < 5; c++) {
+                    if(checks.get(c)) {
+                        equal = equal + 1;
+                    }
+                }
+                if(equal > highestEqual) {
+                    highestChecks.clear();
+                    highestChecks.addAll(checks);
+                    highestEqual = equal;
+                }
+            }
+        }
+
+        return highestChecks;
     }
 
     public static Integer equalSize(List<Boolean> booleanList) {
@@ -106,7 +126,7 @@ public class LotteryUtils {
         PlayerPartyStorage party = partyStorageOptional.get();
 
         for (int i = 0; i < party.getTeam().size(); i++) {
-            if (isLotteryPokemon(party, i, pokemon) && party.getTeam().get(i).getOriginalTrainerUUID() == playerMP.getUniqueID()) {
+            if (party.getTeam().get(i).getOriginalTrainer().equals(playerMP.getName())) {
                 return true;
             }
 
