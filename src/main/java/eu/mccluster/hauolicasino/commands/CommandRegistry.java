@@ -7,6 +7,7 @@ public class CommandRegistry {
     public static void registerCommands(FMLServerStartingEvent event) {
         event.registerServerCommand(new OpenLottery());
         event.registerServerCommand(new ReloadLottery());
+        event.registerServerCommand(new ForcePokeLottery());
 
     }
 }

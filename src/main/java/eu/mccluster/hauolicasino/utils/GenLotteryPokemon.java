@@ -9,13 +9,14 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
+import eu.mccluster.hauolicasino.HauoliCasino;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class GenLotteryPokemon {
 
     public static short genPokemonNationalNumber() {
-        return Short.parseShort(EnumSpecies.randomPoke(true).getNationalPokedexNumber());
+        return Short.parseShort(EnumSpecies.randomPoke(HauoliCasino.getConfig().legendaryLottery).getNationalPokedexNumber());
     }
 
     public static Pokemon genPokemon(short nationaldexNumber) {

@@ -15,17 +15,21 @@ public class PokeLotteryConfig extends Config {
     public PokeLotteryConfig(File file) { _configFile = file; }
 
     @Order(1)
+    @Comment("Toggles if the Lottery is able to choose legendary Pokemon as Lottery-Pokemon")
+    public boolean legendaryLottery = true;
+
+    @Order(2)
     @Comment("Cooldown for the next lottery. Add a m, h or d to the number to change the cooldown to Minutes, Hours or Days")
     public String cooldown = "24h";
 
-    @Order(2)
+    @Order(3)
     @Comment("Toggles if the player has to be the original trainer of the pokemon")
     public boolean originalTrainer = true;
 
-    @Order(3)
+    @Order(4)
     public BroadcastSettings bcSettings = new BroadcastSettings();
 
-    @Order(4)
+    @Order(5)
     public InventoryItems inventorySettings = new InventoryItems();
 
     @Override
