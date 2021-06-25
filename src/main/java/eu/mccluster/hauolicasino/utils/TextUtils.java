@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.server.permission.PermissionAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +45,9 @@ public class TextUtils {
         for(EntityPlayerMP p : server.getPlayerList().getPlayers()) {
             p.sendMessage(toText(regex(broadcast)));
         }
+    }
+
+    public static boolean hasPermission(EntityPlayerMP player, String permissionNode) {
+        return (PermissionAPI.hasPermission(player, permissionNode) || player.canUseCommand(4, permissionNode));
     }
 }
