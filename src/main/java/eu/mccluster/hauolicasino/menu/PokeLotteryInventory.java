@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PokeLotteryInventory {
 
-    public static Page createPage(EntityPlayerMP playerMP) {
+    public static Page createPokeLottery(EntityPlayerMP playerMP) {
 
         PokeLotteryLangConfig _lang = HauoliCasino.getLang();
         Data _data = HauoliCasino.getData();

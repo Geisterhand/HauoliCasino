@@ -46,6 +46,7 @@ public class HauoliCasino {
     @Getter
     private final String _pokeLotteryFolder = HauoliCasinoMod.getInstance().getDataFolder() + File.separator + "pokelottery" + File.separator;
 
+
     public static void load() {
         if(_instance == null) {
             _instance = new HauoliCasino();
@@ -82,7 +83,6 @@ public class HauoliCasino {
         _config.load();
         _lang.load();
         _data.load();
-
     }
 
 }

@@ -36,22 +36,23 @@ public class OpenLottery extends CommandBase {
             return;
         }
 
-        if(TextUtils.hasPermission(player, "hauolicasino.forceopen")) {
-        if(args.length == 1) {
-            String targetplayer = args[0];
-            MinecraftServer playserver = FMLCommonHandler.instance().getMinecraftServerInstance();
-            EntityPlayerMP target = playserver.getPlayerList().getPlayerByUsername(targetplayer);
-            if (target != null) {
-                UIManager.openUIForcefully(target, PokeLotteryInventory.createPage(target));
-            } else {
-                player.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4Player not found."));
-            }
 
+        if(args.length == 1) {
+            if(TextUtils.hasPermission(player, "hauolicasino.forceopen")) {
+                String targetplayer = args[0];
+                MinecraftServer playserver = FMLCommonHandler.instance().getMinecraftServerInstance();
+                EntityPlayerMP target = playserver.getPlayerList().getPlayerByUsername(targetplayer);
+                if (target != null) {
+                    UIManager.openUIForcefully(target, PokeLotteryInventory.createPokeLottery(target));
+                } else {
+                    player.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4Player not found."));
+                }
+
+            } else {
+                player.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4You don't have permission to open the menu for other people."));
+            }
         } else {
-            player.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4Player not found."));
-        }
-        } else {
-            UIManager.openUIForcefully((EntityPlayerMP) sender, PokeLotteryInventory.createPage(player));
+            UIManager.openUIForcefully((EntityPlayerMP) sender, PokeLotteryInventory.createPokeLottery(player));
         }
 
     }
