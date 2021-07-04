@@ -14,6 +14,7 @@ Commands:
 - /casinoreload
 - /forcepokelottery
 - /customlottery slot stat
+- /scratchcard player
 
 ## Permissions
 
@@ -23,6 +24,7 @@ Permissions:
 - hauolicasino.forceopen
 - hauolicasino.forcelottery
 - hauolicasino.customlottery
+- hauolicasino.scratchcard
 
 ## Support
 
