@@ -9,5 +9,6 @@ public class CommandRegistry {
         event.registerServerCommand(new ReloadLottery());
         event.registerServerCommand(new ForcePokeLottery());
         event.registerServerCommand(new CustomLottery());
+        event.registerServerCommand(new OpenScratchCard());
     }
 }

@@ -1,6 +1,5 @@
 package eu.mccluster.hauolicasino.commands;
 
-import ca.landonjw.gooeylibs2.api.UIManager;
 import com.pixelmonmod.pixelmon.entities.pixelmon.abilities.AbilityBase;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
@@ -9,6 +8,7 @@ import com.pixelmonmod.pixelmon.enums.EnumNature;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.objects.LotteryObject;
 import eu.mccluster.hauolicasino.utils.GenLotteryPokemon;
+import eu.mccluster.hauolicasino.utils.Placeholder;
 import eu.mccluster.hauolicasino.utils.TextUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -51,7 +51,7 @@ public class ForcePokeLottery extends CommandBase {
         HauoliCasino.getData().save();
 
         if(HauoliCasino.getConfig().bcSettings.broadcastLottery) {
-            TextUtils.broadcast(HauoliCasino.getConfig().bcSettings.lotteryMessage);
+            TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.lotteryMessage))));
         }
 
         sender.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4Started new PokeLottery!"));

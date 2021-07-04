@@ -61,12 +61,12 @@ public class LotteryTimer {
                             HauoliCasino.getData().save();
                             reminder.set(0);
                             if(HauoliCasino.getConfig().bcSettings.broadcastLottery) {
-                                TextUtils.broadcast(HauoliCasino.getConfig().bcSettings.lotteryMessage);
+                                TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.lotteryMessage))));
                             }
                         } else if(HauoliCasino.getConfig().bcSettings.broadcastReminder) {
                            reminder.set(reminder.get() + 1);
                            if(reminder.get() >= HauoliCasino.getConfig().bcSettings.reminderInterval * 2) {
-                               TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(HauoliCasino.getConfig().bcSettings.reminderMessage)));
+                               TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.reminderMessage))));
                                reminder.set(0);
                            }
                        }

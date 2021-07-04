@@ -36,6 +36,15 @@ public class Placeholder {
         return TextUtils.regex(text);
     }
 
+    public static String currentIdentifiers(String text) {
+        text = text.replaceAll("%growth%", HauoliCasino._currentLottery.get(0).getGrowth().toString());
+        text = text.replaceAll("%nature%", HauoliCasino._currentLottery.get(0).getNature().toString());
+        text = text.replaceAll("%gender%", HauoliCasino._currentLottery.get(0).getGender().toString());
+        text = text.replaceAll("%ability%", HauoliCasino._currentLottery.get(0).getAbility().get().getName());
+        text = text.replaceAll("%stat%", HauoliCasino._currentLottery.get(0).getStat().toString() + " " + HauoliCasino._currentLottery.get(0).getStatHeight());
+        return text;
+    }
+
     public static List<String> currentGrowth(List<String> stringList) {
         List<String> returnList = new ArrayList<>();
         for(String s : stringList) {

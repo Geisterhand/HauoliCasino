@@ -68,28 +68,28 @@ public class PokeLotteryInventory {
         int equals = LotteryUtils.equalSize(checks);
 
         if(_data.playerList.contains(playerMP.getUniqueID().toString())) {
-            claimItem = LootUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
+            claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
             claimable.set(false);
             loreClaim = _lang.alreadyClaimed;
         } else if(claimable.get() && !LotteryUtils.hasLotteryPokemon(playerMP, pokemon)) {
-            claimItem = LootUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
+            claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
             claimable.set(false);
             loreClaim = _lang.noLotteryPokemon;
         }  else if(claimable.get() && equals == 0) {
-            claimItem = LootUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
+            claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
             claimable.set(false);
             loreClaim = _lang.noIdentifiers;
         } else if(claimable.get() && _config.originalTrainer ) {
             claimable.set(LotteryUtils.isOriginalTrainer(playerMP, pokemon));
             if (claimable.get()) {
-                claimItem = LootUtils.itemStackFromType(_config.inventorySettings.claimItem, 1);
+                claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.claimItem, 1);
                 loreClaim = _lang.canClaim;
             } else {
-                claimItem = LootUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
+                claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
                 loreClaim = _lang.notOriginalTrainer;
             }
         } else {
-            claimItem = LootUtils.itemStackFromType(_config.inventorySettings.claimItem, 1);
+            claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.claimItem, 1);
             claimable.set(true);
             loreClaim = _lang.canClaim;
         }
@@ -97,10 +97,10 @@ public class PokeLotteryInventory {
 
 
         if(!checks.get(0)) {
-            sizeItem = LootUtils.itemStackFromType(_config.inventorySettings.growthNotFulfilled, 1);
+            sizeItem = ItemUtils.itemStackFromType(_config.inventorySettings.growthNotFulfilled, 1);
             loreSize.add(_lang.requirementFalse);
         } else {
-            sizeItem = LootUtils.itemStackFromType(_config.inventorySettings.growthFulfilled, 1);
+            sizeItem = ItemUtils.itemStackFromType(_config.inventorySettings.growthFulfilled, 1);
             loreSize.add(_lang.requirmentTrue);
         }
         loreSize.addAll(_lang.reqGrowth);
@@ -108,10 +108,10 @@ public class PokeLotteryInventory {
 
 
         if(!checks.get(1)) {
-            natureItem = LootUtils.itemStackFromType(_config.inventorySettings.natureNotFulfilled, 1);
+            natureItem = ItemUtils.itemStackFromType(_config.inventorySettings.natureNotFulfilled, 1);
             loreNature.add(_lang.requirementFalse);
         } else {
-            natureItem = LootUtils.itemStackFromType(_config.inventorySettings.natureFulfilled, 1);
+            natureItem = ItemUtils.itemStackFromType(_config.inventorySettings.natureFulfilled, 1);
             loreNature.add(_lang.requirmentTrue);
         }
         loreNature.addAll(_lang.reqNature);
@@ -119,10 +119,10 @@ public class PokeLotteryInventory {
 
 
         if(!checks.get(2)) {
-            genderItem = LootUtils.itemStackFromType(_config.inventorySettings.genderNotFulfilled, 1);
+            genderItem = ItemUtils.itemStackFromType(_config.inventorySettings.genderNotFulfilled, 1);
             loreGender.add(_lang.requirementFalse);
         } else {
-            genderItem = LootUtils.itemStackFromType(_config.inventorySettings.genderFulfilled, 1);
+            genderItem = ItemUtils.itemStackFromType(_config.inventorySettings.genderFulfilled, 1);
             loreGender.add(_lang.requirmentTrue);
         }
         loreGender.addAll(_lang.reqGender);
@@ -130,10 +130,10 @@ public class PokeLotteryInventory {
 
 
         if(!checks.get(3)) {
-            abilityItem = LootUtils.itemStackFromType(_config.inventorySettings.abilityNotFulfilled, 1);
+            abilityItem = ItemUtils.itemStackFromType(_config.inventorySettings.abilityNotFulfilled, 1);
             loreAbility.add(_lang.requirementFalse);
         } else {
-            abilityItem = LootUtils.itemStackFromType(_config.inventorySettings.abilityFulfilled, 1);
+            abilityItem = ItemUtils.itemStackFromType(_config.inventorySettings.abilityFulfilled, 1);
             loreAbility.add(_lang.requirmentTrue);
         }
         loreAbility.addAll(_lang.reqAbility);
@@ -141,10 +141,10 @@ public class PokeLotteryInventory {
 
 
         if(!checks.get(4)) {
-            statItem = LootUtils.itemStackFromType(_config.inventorySettings.ivNotFulfilled, 1);
+            statItem = ItemUtils.itemStackFromType(_config.inventorySettings.ivNotFulfilled, 1);
             loreStat.add(_lang.requirementFalse);
         } else {
-            statItem = LootUtils.itemStackFromType(_config.inventorySettings.ivFulfilled, 1);
+            statItem = ItemUtils.itemStackFromType(_config.inventorySettings.ivFulfilled, 1);
             loreStat.add(_lang.requirmentTrue);
         }
         loreStat.addAll(_lang.reqStat);
@@ -173,7 +173,7 @@ public class PokeLotteryInventory {
                 .onClick((buttonAction -> {
                     if(claimable.get()) {
                         EntityPlayerMP actionPlayer = buttonAction.getPlayer();
-                        LootUtils.genLoot(actionPlayer, equals);
+                        ItemUtils.genLoot(actionPlayer, equals);
                         HauoliCasino.getData().playerList.add(playerMP.getUniqueID().toString());
                         HauoliCasino.getData().save();
                         UIManager.closeUI(actionPlayer);
@@ -182,7 +182,7 @@ public class PokeLotteryInventory {
                 .build();
 
         Button time = GooeyButton.builder()
-                .display(LootUtils.itemStackFromType(_config.inventorySettings.timeItem, 1))
+                .display(ItemUtils.itemStackFromType(_config.inventorySettings.timeItem, 1))
                 .title(TextUtils.regex(_lang.titleTime))
                 .lore(loreTime)
                 .build();

@@ -11,14 +11,13 @@ import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.objects.LotteryObject;
-import eu.mccluster.hauolicasino.utils.GenLotteryPokemon;
+import eu.mccluster.hauolicasino.utils.Placeholder;
 import eu.mccluster.hauolicasino.utils.TextUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import scala.Int;
 
 import java.util.Date;
 import java.util.Optional;
@@ -98,7 +97,7 @@ public class CustomLottery extends CommandBase {
             HauoliCasino.getData().save();
 
             if(HauoliCasino.getConfig().bcSettings.broadcastLottery) {
-                TextUtils.broadcast(HauoliCasino.getConfig().bcSettings.lotteryMessage);
+                TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.lotteryMessage))));
             }
 
             sender.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4Started new PokeLottery!"));
