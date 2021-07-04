@@ -10,9 +10,10 @@ Additional Information:
 A private DependencyLoader from https://github.com/HexagonMC is used. The DependencyLoader loads a private ConfigManager.
 
 Commands:
-- /pokelottery <player>
+- /pokelottery player
 - /casinoreload
 - /forcepokelottery
+- /customlottery slot stat
 
 ## Permissions
 
@@ -21,6 +22,7 @@ Permissions:
 - hauolicasino.reload
 - hauolicasino.forceopen
 - hauolicasino.forcelottery
+- hauolicasino.customlottery
 
 ## Support
 
