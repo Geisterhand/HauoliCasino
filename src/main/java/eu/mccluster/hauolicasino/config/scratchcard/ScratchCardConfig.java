@@ -11,7 +11,7 @@ import java.util.List;
 public class ScratchCardConfig extends Config {
 
     @Order(1)
-    @Comment("Default Loottable for PokeLottery")
+    @Comment("Default Loottable for Scratchcard")
     public List<ScratchcardData> lootData = new ArrayList<>();
 
     public ScratchCardConfig() {
