@@ -6,6 +6,7 @@ import ca.landonjw.gooeylibs2.api.data.UpdateEmitter;
 import ca.landonjw.gooeylibs2.api.page.Page;
 import ca.landonjw.gooeylibs2.api.template.Template;
 import ca.landonjw.gooeylibs2.api.template.types.ChestTemplate;
+import ca.landonjw.gooeylibs2.api.template.types.DispenserTemplate;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.config.scratchcard.ScratchCardGeneralConfig;
 import eu.mccluster.hauolicasino.config.scratchcard.ScratchCardLang;
@@ -17,36 +18,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
-public class ScratchCardInventory extends UpdateEmitter<Page> implements Page {
+public class FreeScratchCardInventory extends UpdateEmitter<Page> implements Page {
 
     ScratchCardGeneralConfig _config = HauoliCasino.getScratchConfig();
     ScratchCardLang _lang = HauoliCasino.getScratchLang();
-    private final ChestTemplate template;
-
-    Button panes = GooeyButton.builder()
-            .display(new ItemStack(Blocks.STAINED_GLASS_PANE, 1, _config.paneColor))
-            .title(TextUtils.regex(_lang.glassPanes))
-            .build();
-
-    Button startGame = GooeyButton.builder()
-            .display(ItemUtils.itemStackFromType(_config.gameItem, 1))
-            .title(TextUtils.regex(_lang.startGame))
-            .lore(TextUtils.regexList(_lang.gameInfo))
-            .onClick((buttonAction -> {
-                EntityPlayerMP player = buttonAction.getPlayer();
-                if(EconomyUtils.hasEnoughMoney(player, _config.cost)) {
-                    EconomyUtils.takeMoney(player, _config.cost);
-                    fillScratches();
-                } else {
-                    player.sendMessage(TextUtils.toText(TextUtils.regex(_lang.noMoney)));
-                }
-            }))
-            .build();
-
-    Button notAvailable = GooeyButton.builder()
-            .display(ItemUtils.itemStackFromType(_config.unavailableItem, 1))
-            .title(TextUtils.regex(_lang.unavailable))
-            .build();
+    private final DispenserTemplate template;
 
     Button blank = GooeyButton.builder()
             .display(ItemUtils.itemStackFromType(_config.blankItem, 1))
@@ -61,21 +37,18 @@ public class ScratchCardInventory extends UpdateEmitter<Page> implements Page {
             }))
             .build();
 
-    public ScratchCardInventory() {
-        this.template = ChestTemplate.builder(5)
-                .fill(panes)
-                .set(24, startGame)
-                .rectangle(1, 1, 3, 3, notAvailable)
+    public FreeScratchCardInventory() {
+        this.template = DispenserTemplate.builder()
                 .build();
+        fillScratches();
     }
 
     private void fillScratches() {
-        int slotIndex = 10;
+        int slotIndex = 0;
         int rewards = 0;
         ItemStack concealedItem = ItemUtils.itemStackFromType(_config.concealedItem, 1);
         concealedItem.setStackDisplayName(TextUtils.regex(_lang.concealedCard));
-        for (int b = 0; b < 3; b++) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 9; i++) {
                 int chance = (int) (Math.random() * 100 + 1);
                 if (chance <= _config.chance && rewards < _config.maxRewards) {
                     template.set(slotIndex, new ScratchCardButton(concealedItem));
@@ -86,8 +59,6 @@ public class ScratchCardInventory extends UpdateEmitter<Page> implements Page {
                     slotIndex = slotIndex + 1;
                 }
             }
-            slotIndex = slotIndex + 6;
-        }
     }
 
 
@@ -98,6 +69,6 @@ public class ScratchCardInventory extends UpdateEmitter<Page> implements Page {
 
     @Override
     public String getTitle() {
-        return TextUtils.regex(_lang.menuTitle);
+        return TextUtils.regex(_lang.freeCard);
     }
 }

@@ -3,21 +3,22 @@ package eu.mccluster.hauolicasino.utils;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.config.pokelottery.LootTableStart;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import java.util.UUID;
 
 public class ItemUtils {
 
     public static ItemStack itemStackFromType(String itemName, int quantity) {
-        ItemStack itemStack = GameRegistry.makeItemStack(itemName, 0, quantity, null);
-        return itemStack;
+        int meta = 0;
+        if(itemName.contains("meta>")) {
+            String[] item = itemName.split("meta>");
+            itemName = item[0].trim();
+            meta = Integer.parseInt(item[1].trim());
+        }
+        return GameRegistry.makeItemStack(itemName, meta, quantity, null);
     }
 
     public static void genLoot(EntityPlayerMP playerMP, int amount) {

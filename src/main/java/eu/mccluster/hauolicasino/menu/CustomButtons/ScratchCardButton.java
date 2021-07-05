@@ -9,15 +9,12 @@ import eu.mccluster.hauolicasino.utils.ItemUtils;
 import eu.mccluster.hauolicasino.utils.Placeholder;
 import eu.mccluster.hauolicasino.utils.TextUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
 
 public class ScratchCardButton extends ButtonBase {
 
@@ -57,9 +54,9 @@ public class ScratchCardButton extends ButtonBase {
                 ItemStack rewardItem = ItemUtils.itemStackFromType(_loot.loottable.lootData.get(listEntry).loot, _loot.loottable.lootData.get(listEntry).lootAmount);
                 player.inventory.addItemStackToInventory(rewardItem);
             } else {
-                String command = _loot.loottable.lootData.get(listEntry).loot.replaceAll("command>", "");
+                String[] command = _loot.loottable.lootData.get(listEntry).loot.split("command>");
                 MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-                server.getCommandManager().executeCommand(server, Placeholder.parsePlayer(command, player));
+                server.getCommandManager().executeCommand(server, Placeholder.parsePlayer(command[1].trim(), player));
             }
                 active = false;
             }

@@ -37,6 +37,9 @@ public class ScratchCardLang  extends Config {
     @Order(7)
     public String unavailable = "§cBuy a scratchcard first!";
 
+    @Order(8)
+    public String freeCard = "§c§lFree Scratchcard";
+
 
 
     public ScratchCardLang(File file) {

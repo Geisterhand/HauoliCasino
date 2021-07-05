@@ -2,7 +2,8 @@ package eu.mccluster.hauolicasino.commands;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
 import eu.mccluster.hauolicasino.HauoliCasino;
-import eu.mccluster.hauolicasino.menu.PokeLotteryInventory;
+import eu.mccluster.hauolicasino.menu.FreeScratchCardInventory;
+import eu.mccluster.hauolicasino.menu.ScratchCardInventory;
 import eu.mccluster.hauolicasino.utils.TextUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -12,25 +13,25 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 
-public class OpenLottery extends CommandBase {
+public class OpenFreeScratchCard extends CommandBase {
     @Override
     public String getName() {
-        return "pokelottery";
+        return "freescratchcard";
     }
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/pokelottery";
+        return "/freescratchcard";
     }
 
     @Override
     public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return sender.canUseCommand(4, "hauolicasino.openlottery");
+        return sender.canUseCommand(4, "hauolicasino.freecard");
     }
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if(!HauoliCasino.getModule().modulePokeLottery) {
+        if(!HauoliCasino.getModule().moduleScratchCard) {
             sender.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4This module is deactivated by the server"));
             return;
         }
@@ -43,14 +44,13 @@ public class OpenLottery extends CommandBase {
             permission = true;
         }
 
-
         if(args.length == 1) {
             if(permission) {
                 String targetplayer = args[0];
                 MinecraftServer playserver = FMLCommonHandler.instance().getMinecraftServerInstance();
                 EntityPlayerMP target = playserver.getPlayerList().getPlayerByUsername(targetplayer);
                 if (target != null) {
-                    UIManager.openUIForcefully(target, PokeLotteryInventory.createPokeLottery(target));
+                    UIManager.openUIForcefully(target, new FreeScratchCardInventory());
                 } else {
                     sender.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4Player not found."));
                 }
@@ -59,7 +59,7 @@ public class OpenLottery extends CommandBase {
                 sender.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4You don't have permission to open the menu for other people."));
             }
         } else {
-            UIManager.openUIForcefully((EntityPlayerMP) sender, PokeLotteryInventory.createPokeLottery((EntityPlayerMP) sender));
+            UIManager.openUIForcefully((EntityPlayerMP) sender, new FreeScratchCardInventory());
         }
 
     }
