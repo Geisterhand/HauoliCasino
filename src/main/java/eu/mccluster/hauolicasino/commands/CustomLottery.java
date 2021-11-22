@@ -9,7 +9,10 @@ import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
+import eu.mccluster.hauolicasino.config.pokelottery.Data;
+import eu.mccluster.hauolicasino.config.pokelottery.PokeLotteryConfig;
 import eu.mccluster.hauolicasino.objects.LotteryObject;
 import eu.mccluster.hauolicasino.utils.Placeholder;
 import eu.mccluster.hauolicasino.utils.TextUtils;
@@ -19,6 +22,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Optional;
 
@@ -92,11 +97,14 @@ public class CustomLottery extends CommandBase {
 
             LotteryObject object = new LotteryObject(pokemonIndexNumber, size, nature, gender, ability, stats, statHeight, date);
             HauoliCasino._currentLottery.set(0, object);
-            HauoliCasino.getData().lotteryData.set(0, object);
-            HauoliCasino.getData().playerList.clear();
-            HauoliCasino.getData().save();
 
-            if(HauoliCasino.getConfig().bcSettings.broadcastLottery) {
+            Data data = ConfigManagement.getInstance().loadConfig(Data.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
+            data.lotteryData.set(0, object);
+            data.playerList.clear();
+            ConfigManagement.getInstance().saveConfig(data, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
+
+            PokeLotteryConfig config = ConfigManagement.getInstance().loadConfig(PokeLotteryConfig.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "PokeLottery.yml"));
+            if(config.bcSettings.broadcastLottery) {
                 TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.lotteryMessage))));
             }
 

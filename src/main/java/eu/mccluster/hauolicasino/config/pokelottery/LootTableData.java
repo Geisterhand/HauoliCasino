@@ -1,22 +1,15 @@
 package eu.mccluster.hauolicasino.config.pokelottery;
-import eu.mccluster.dependency.configmanager.api.Config;
-import eu.mccluster.dependency.configmanager.api.annotations.Order;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.io.File;
 
-public class LootTableData extends Config {
+@ConfigSerializable
+public class LootTableData{
 
-    @Order(1)
     public String loot = "pixelmon:poke_ball";
 
-    @Order(2)
     public int lootAmount = 1;
 
-    @Order(3)
     public int lootRarity = 5;
 
-    @Override
-    public File getFile() {
-        return null;
-    }
 }

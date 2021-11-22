@@ -3,6 +3,7 @@ package eu.mccluster.hauolicasino.menu.CustomButtons;
 import ca.landonjw.gooeylibs2.api.button.ButtonAction;
 import ca.landonjw.gooeylibs2.api.button.ButtonBase;
 import com.pixelmonmod.pixelmon.config.PixelmonItems;
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.config.scratchcard.ScratchCardStart;
 import eu.mccluster.hauolicasino.utils.ItemUtils;
@@ -15,10 +16,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
+import java.io.File;
+import java.nio.file.Paths;
 
 public class ScratchCardButton extends ButtonBase {
 
-    ScratchCardStart _loot = HauoliCasino.getScratchLoot();
+    ScratchCardStart _loot = ConfigManagement.getInstance().loadConfig(ScratchCardStart.class, Paths.get(HauoliCasino.SCRATCH_PATH + File.separator + "Loottable.yml"));
 
     private boolean active = true;
 

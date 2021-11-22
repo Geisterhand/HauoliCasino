@@ -1,5 +1,6 @@
 package eu.mccluster.hauolicasino.utils;
 
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.config.pokelottery.LootTableStart;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -7,6 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.io.File;
+import java.nio.file.Paths;
 
 
 public class ItemUtils {
@@ -24,7 +28,7 @@ public class ItemUtils {
     public static void genLoot(EntityPlayerMP playerMP, int amount) {
 
         int raritySum;
-        LootTableStart _loottable = HauoliCasino.getLoot();
+        LootTableStart _loottable = ConfigManagement.getInstance().loadConfig(LootTableStart.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Loottable.yml"));;
 
             raritySum = _loottable.loottable.lootData.stream().mapToInt(lootTableData -> lootTableData.lootRarity).sum();
             for (int i = 0; i < amount; i++) {

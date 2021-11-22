@@ -1,7 +1,9 @@
 package eu.mccluster.hauolicasino.commands;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
+import eu.mccluster.hauolicasino.config.HauoliCasinoConfig;
 import eu.mccluster.hauolicasino.menu.PokeLotteryInventory;
 import eu.mccluster.hauolicasino.utils.TextUtils;
 import net.minecraft.command.CommandBase;
@@ -11,8 +13,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import java.io.File;
+import java.nio.file.Paths;
+
 
 public class OpenLottery extends CommandBase {
+
+    static HauoliCasinoConfig config = ConfigManagement.getInstance().loadConfig(HauoliCasinoConfig.class, Paths.get(HauoliCasino.MAIN_PATH + File.separator + "HauoliCasino.yml"));
+
     @Override
     public String getName() {
         return "pokelottery";
@@ -30,7 +38,7 @@ public class OpenLottery extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if(!HauoliCasino.getModule().modulePokeLottery) {
+        if(!config.modulePokeLottery) {
             sender.sendMessage(TextUtils.toText("[&dHauoliCasino&r] &4This module is deactivated by the server"));
             return;
         }

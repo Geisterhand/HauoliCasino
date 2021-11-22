@@ -5,7 +5,9 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
+import eu.mccluster.hauolicasino.config.pokelottery.Data;
 import eu.mccluster.hauolicasino.objects.LotteryObject;
 import eu.mccluster.hauolicasino.utils.GenLotteryPokemon;
 import eu.mccluster.hauolicasino.utils.Placeholder;
@@ -15,6 +17,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Date;
 
 public class ForcePokeLottery extends CommandBase {
@@ -46,9 +50,11 @@ public class ForcePokeLottery extends CommandBase {
         int statHeight = (int)(Math.random() * 31);
         LotteryObject object = new LotteryObject(pokemonIndexNumber, size, nature, gender, ability, stats, statHeight, date);
         HauoliCasino._currentLottery.set(0, object);
-        HauoliCasino.getData().lotteryData.set(0, object);
-        HauoliCasino.getData().playerList.clear();
-        HauoliCasino.getData().save();
+
+        Data data = ConfigManagement.getInstance().loadConfig(Data.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
+        data.lotteryData.set(0, object);
+        data.playerList.clear();
+        ConfigManagement.getInstance().saveConfig(data, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
 
         if(HauoliCasino.getConfig().bcSettings.broadcastLottery) {
             TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.lotteryMessage))));

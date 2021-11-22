@@ -1,20 +1,18 @@
 package eu.mccluster.hauolicasino.config.pokelottery;
 
-import eu.mccluster.dependency.configmanager.api.Config;
-import eu.mccluster.dependency.configmanager.api.annotations.Comment;
-import eu.mccluster.dependency.configmanager.api.annotations.Order;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LootTableConfig extends Config {
+@ConfigSerializable
+public class LootTableConfig{
 
-    @Order(1)
     @Comment("Default Loottable for PokeLottery")
     public List<LootTableData> lootData = new ArrayList<>();
 
-    @Order(2)
     @Comment("Loottable for extra loots")
     public List<LootTableData> extraLootData = new ArrayList<>();
 
@@ -25,8 +23,4 @@ public class LootTableConfig extends Config {
     }
 
 
-    @Override
-    public File getFile() {
-        return null;
-    }
 }

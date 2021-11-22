@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class LotteryUtils {
 
@@ -45,11 +46,11 @@ public class LotteryUtils {
             return checks;
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             checks.add(false);
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             highestChecks.add(false);
         }
 
@@ -59,12 +60,13 @@ public class LotteryUtils {
         int highestEqual = 0;
 
         for (int i = 0; i < party.getTeam().size(); i++) {
-            if (isLotteryPokemon(party, i, pokemon)) {
+            if (isLotteryPokemon(party, i, pokemon) && isOriginalTrainer(party, playerMP, i)) {
                 checks.set(0, hasSameGrowth(party, size, i));
                 checks.set(1, hasSameNature(party, nature, i));
                 checks.set(2, hasSameGender(party, gender, i));
                 checks.set(3, hasSameAbility(party, ability, i));
                 checks.set(4, hasSameIV(party, stat, i));
+                checks.set(5, true);
                 equal = 0;
                 for(int c = 0; c < 5; c++) {
                     if(checks.get(c)) {
@@ -117,21 +119,12 @@ public class LotteryUtils {
         return stat == HauoliCasino._currentLottery.get(0).getStatHeight();
     }
 
-    public static boolean isOriginalTrainer(EntityPlayerMP playerMP, Pokemon pokemon) {
-        Optional<PlayerPartyStorage> partyStorageOptional = Optional.ofNullable(Pixelmon.storageManager.getParty(playerMP.getUniqueID()));
-        if (!partyStorageOptional.isPresent()) {
+    public static boolean isOriginalTrainer(PlayerPartyStorage party, EntityPlayerMP playerMP, int index) {
+        if (party.getTeam().get(index).getOriginalTrainerUUID() == playerMP.getUniqueID()) {
+            return true;
+        } else {
             return false;
         }
-
-        PlayerPartyStorage party = partyStorageOptional.get();
-
-        for (int i = 0; i < party.getTeam().size(); i++) {
-            if (party.getTeam().get(i).getOriginalTrainer().equals(playerMP.getName())) {
-                return true;
-            }
-
-        }
-        return false;
     }
 
 }

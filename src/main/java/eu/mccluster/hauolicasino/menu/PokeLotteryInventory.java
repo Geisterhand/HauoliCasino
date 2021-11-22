@@ -13,6 +13,7 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.config.pokelottery.PokeLotteryLangConfig;
 import eu.mccluster.hauolicasino.config.pokelottery.Data;
@@ -23,6 +24,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -31,9 +34,9 @@ public class PokeLotteryInventory {
 
     public static Page createPokeLottery(EntityPlayerMP playerMP) {
 
-        PokeLotteryLangConfig _lang = HauoliCasino.getLang();
-        Data _data = HauoliCasino.getData();
-        PokeLotteryConfig _config = HauoliCasino.getConfig();
+        PokeLotteryLangConfig _lang = ConfigManagement.getInstance().loadConfig(PokeLotteryLangConfig.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Lang.yml"));
+        Data _data = ConfigManagement.getInstance().loadConfig(Data.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
+        PokeLotteryConfig _config = ConfigManagement.getInstance().loadConfig(PokeLotteryConfig.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "PokeLottery.yml"));
         LotteryObject _object = HauoliCasino._currentLottery.get(0);
 
         short pokemonIndexNumber = _object.getIndexNumber();
@@ -45,7 +48,6 @@ public class PokeLotteryInventory {
         StatsType stats = _object.getStat();
 
         AtomicBoolean claimable = new AtomicBoolean(true);
-
         ItemStack claimItem;
         ItemStack sizeItem;
         ItemStack natureItem;
@@ -65,7 +67,7 @@ public class PokeLotteryInventory {
 
         List<Boolean> checks = LotteryUtils.checkPokemon(playerMP, pokemon, size, nature, gender, ability, stats);
 
-        int equals = LotteryUtils.equalSize(checks);
+        int equals = LotteryUtils.equalSize(checks) - 1;
 
         if(_data.playerList.contains(playerMP.getUniqueID().toString())) {
             claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
@@ -75,12 +77,12 @@ public class PokeLotteryInventory {
             claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
             claimable.set(false);
             loreClaim = _lang.noLotteryPokemon;
-        }  else if(claimable.get() && equals == 0) {
+        }  else if(claimable.get() && equals <= 0 && checks.get(5)) {
             claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.notClaimable, 1);
             claimable.set(false);
             loreClaim = _lang.noIdentifiers;
-        } else if(claimable.get() && _config.originalTrainer ) {
-            claimable.set(LotteryUtils.isOriginalTrainer(playerMP, pokemon));
+        } else if(claimable.get()) {
+            claimable.set(checks.get(5));
             if (claimable.get()) {
                 claimItem = ItemUtils.itemStackFromType(_config.inventorySettings.claimItem, 1);
                 loreClaim = _lang.canClaim;
@@ -93,8 +95,6 @@ public class PokeLotteryInventory {
             claimable.set(true);
             loreClaim = _lang.canClaim;
         }
-
-
 
         if(!checks.get(0)) {
             sizeItem = ItemUtils.itemStackFromType(_config.inventorySettings.growthNotFulfilled, 1);
@@ -174,8 +174,8 @@ public class PokeLotteryInventory {
                     if(claimable.get()) {
                         EntityPlayerMP actionPlayer = buttonAction.getPlayer();
                         ItemUtils.genLoot(actionPlayer, equals);
-                        HauoliCasino.getData().playerList.add(playerMP.getUniqueID().toString());
-                        HauoliCasino.getData().save();
+                        _data.playerList.add(playerMP.getUniqueID().toString());
+                        ConfigManagement.getInstance().saveConfig(_data, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
                         UIManager.closeUI(actionPlayer);
                     }
                 }))

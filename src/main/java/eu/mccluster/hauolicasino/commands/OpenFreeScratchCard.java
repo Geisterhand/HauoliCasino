@@ -3,7 +3,6 @@ package eu.mccluster.hauolicasino.commands;
 import ca.landonjw.gooeylibs2.api.UIManager;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.menu.FreeScratchCardInventory;
-import eu.mccluster.hauolicasino.menu.ScratchCardInventory;
 import eu.mccluster.hauolicasino.utils.TextUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;

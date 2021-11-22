@@ -16,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -55,12 +57,9 @@ public class HauoliCasino {
 
     public static List<LotteryObject> _currentLottery = new ArrayList<>();
 
-    @Getter
-    private final String _pokeLotteryFolder = HauoliCasinoMod.getInstance().getDataFolder() + File.separator + "pokelottery" + File.separator;
-
-    @Getter
-    private final String _scratchCardFolder = HauoliCasinoMod.getInstance().getDataFolder() + File.separator + "scratchcard" + File.separator;
-
+    public static final Path MAIN_PATH = ConfigManagement.getInstance().getPluginFolder();
+    public static final Path LOTTERY_PATH = Paths.get(MAIN_PATH + File.separator + "pokelottery");
+    public static final Path SCRATCH_PATH = Paths.get(MAIN_PATH + File.separator + "scratchcard");
 
     public static void load() {
         if(_instance == null) {
@@ -76,17 +75,15 @@ public class HauoliCasino {
 
 
     private void onEnable(FMLServerStartingEvent event) {
-        _loot = new LootTableStart(new File(_pokeLotteryFolder, "Loottable.conf"));
-        _config = new PokeLotteryConfig(new File(_pokeLotteryFolder, "PokeLottery.conf"));
-        _lang = new PokeLotteryLangConfig(new File(_pokeLotteryFolder, "Lang.conf"));
-        _data = new Data(new File(_pokeLotteryFolder, "Data.conf"));
-        _module = new HauoliCasinoConfig(new File(HauoliCasinoMod.getInstance().getDataFolder(), "HauoliCasino.conf"));
-        _scratchLoot = new ScratchCardStart(new File(_scratchCardFolder, "Loottable.conf"));
-        _scratchConfig = new ScratchCardGeneralConfig(new File(_scratchCardFolder, "Scratchard.conf"));
-        _scratchLang = new ScratchCardLang(new File(_scratchCardFolder, "Lang.conf"));
+        _loot = ConfigManagement.getInstance().loadConfig(LootTableStart.class, Paths.get(LOTTERY_PATH + File.separator + "Loottable.yml"));
+        _config = ConfigManagement.getInstance().loadConfig(PokeLotteryConfig.class, Paths.get(LOTTERY_PATH + File.separator + "PokeLottery.yml"));
+        _lang = ConfigManagement.getInstance().loadConfig(PokeLotteryLangConfig.class, Paths.get(LOTTERY_PATH + File.separator + "Lang.yml"));
+        _data = ConfigManagement.getInstance().loadConfig(Data.class, Paths.get(LOTTERY_PATH + File.separator + "Data.yml"));
+        _module = ConfigManagement.getInstance().loadConfig(HauoliCasinoConfig.class, Paths.get(MAIN_PATH + File.separator + "HauoliCasino.yml"));
+        _scratchLoot = ConfigManagement.getInstance().loadConfig(ScratchCardStart.class, Paths.get(SCRATCH_PATH + File.separator + "Loottable.yml"));
+        _scratchConfig = ConfigManagement.getInstance().loadConfig(ScratchCardGeneralConfig.class, Paths.get(SCRATCH_PATH + File.separator + "Scratchcard.yml"));
+        _scratchLang = ConfigManagement.getInstance().loadConfig(ScratchCardLang.class, Paths.get(SCRATCH_PATH + File.separator + "Lang.yml"));
         CommandRegistry.registerCommands(event);
-        _instance.onReload();
-        _module.load();
         if(_data.lotteryData.size() == 1 && _module.modulePokeLottery) {
             _currentLottery.add(_data.lotteryData.get(0));
         }
@@ -97,13 +94,13 @@ public class HauoliCasino {
     }
 
     public void onReload() {
-        _loot.load();
-        _config.load();
-        _lang.load();
-        _data.load();
-        _scratchLoot.load();
-        _scratchConfig.load();
-        _scratchLang.load();
+        _loot = ConfigManagement.getInstance().loadConfig(LootTableStart.class, Paths.get(LOTTERY_PATH + File.separator + "Loottable.yml"));
+        _config = ConfigManagement.getInstance().loadConfig(PokeLotteryConfig.class, Paths.get(LOTTERY_PATH + File.separator + "PokeLottery.yml"));
+        _lang = ConfigManagement.getInstance().loadConfig(PokeLotteryLangConfig.class, Paths.get(LOTTERY_PATH + File.separator + "Lang.yml"));
+        _data = ConfigManagement.getInstance().loadConfig(Data.class, Paths.get(LOTTERY_PATH + File.separator + "Data.yml"));
+        _scratchLoot = ConfigManagement.getInstance().loadConfig(ScratchCardStart.class, Paths.get(SCRATCH_PATH + File.separator + "Loottable.yml"));
+        _scratchConfig = ConfigManagement.getInstance().loadConfig(ScratchCardGeneralConfig.class, Paths.get(SCRATCH_PATH + File.separator + "Scratchcard.yml"));
+        _scratchLang = ConfigManagement.getInstance().loadConfig(ScratchCardLang.class, Paths.get(SCRATCH_PATH + File.separator + "Lang.yml"));
     }
 
 }

@@ -5,39 +5,30 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
-import eu.mccluster.dependency.configmanager.api.Config;
-import eu.mccluster.dependency.configmanager.api.annotations.Order;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
-import java.io.File;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
-public class LotteryObject extends Config {
+@ConfigSerializable
+public class LotteryObject {
 
-    @Order(1)
-    private short indexNumber;
+    private short indexNumber = 0;
 
-    @Order(2)
-    private int growth;
+    private int growth = 0;
 
-    @Order(3)
-    private int nature;
+    private int nature = 0;
 
-    @Order(4)
-    private String gender;
+    private String gender = "";
 
-    @Order(5)
-    private String ability;
+    private String ability = "";
 
-    @Order(6)
-    private String stat;
+    private String stat = "";
 
-    @Order(7)
-    private int statHeight;
+    private int statHeight = 0;
 
-    @Order(7)
-    private long lastRotation;
+    private long lastRotation = 0;
 
     public LotteryObject() {
 
@@ -71,10 +62,4 @@ public class LotteryObject extends Config {
 
     public Date getDate() { return Date.from(Instant.ofEpochMilli(this.lastRotation)); }
 
-
-
-    @Override
-    public File getFile() {
-        return null;
-    }
 }

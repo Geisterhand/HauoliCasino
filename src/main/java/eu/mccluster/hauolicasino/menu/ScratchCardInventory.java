@@ -6,6 +6,7 @@ import ca.landonjw.gooeylibs2.api.data.UpdateEmitter;
 import ca.landonjw.gooeylibs2.api.page.Page;
 import ca.landonjw.gooeylibs2.api.template.Template;
 import ca.landonjw.gooeylibs2.api.template.types.ChestTemplate;
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
 import eu.mccluster.hauolicasino.config.scratchcard.ScratchCardGeneralConfig;
 import eu.mccluster.hauolicasino.config.scratchcard.ScratchCardLang;
@@ -17,10 +18,13 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
+import java.io.File;
+import java.nio.file.Paths;
+
 public class ScratchCardInventory extends UpdateEmitter<Page> implements Page {
 
-    ScratchCardGeneralConfig _config = HauoliCasino.getScratchConfig();
-    ScratchCardLang _lang = HauoliCasino.getScratchLang();
+    ScratchCardGeneralConfig _config = ConfigManagement.getInstance().loadConfig(ScratchCardGeneralConfig.class, Paths.get(HauoliCasino.SCRATCH_PATH + File.separator + "Scratchcard.yml"));
+    ScratchCardLang _lang = ConfigManagement.getInstance().loadConfig(ScratchCardLang.class, Paths.get(HauoliCasino.SCRATCH_PATH + File.separator + "Lang.yml"));
     private final ChestTemplate template;
 
     Button panes = GooeyButton.builder()

@@ -1,8 +1,5 @@
 package eu.mccluster.hauolicasino;
 
-
-import eu.mccluster.dependency.deploader.api.DependencyLoader;
-import eu.mccluster.dependency.deploader.api.DependencyLoaderApi;
 import lombok.Getter;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -38,7 +35,6 @@ public class HauoliCasinoMod {
     @Mod.EventHandler
     public void load(FMLInitializationEvent event) {
         _instance = this;
-        initDependencies();
         HauoliCasino.load();
     }
 
@@ -55,9 +51,5 @@ public class HauoliCasinoMod {
         }
     }
 
-    private void initDependencies() {
-        final DependencyLoaderApi depLoader = DependencyLoader.getInstance(this);
-        depLoader.loadDependency("eu.mccluster.dependency:configmanager-dependency:1.1");
 
-    }
 }

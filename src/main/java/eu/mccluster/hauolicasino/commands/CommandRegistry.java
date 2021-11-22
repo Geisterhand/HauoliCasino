@@ -1,6 +1,5 @@
 package eu.mccluster.hauolicasino.commands;
 
-import eu.mccluster.hauolicasino.menu.FreeScratchCardInventory;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 public class CommandRegistry {

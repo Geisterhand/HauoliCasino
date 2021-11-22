@@ -6,13 +6,18 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.Gender;
 import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
+import eu.mccluster.hauolicasino.ConfigManagement;
 import eu.mccluster.hauolicasino.HauoliCasino;
+import eu.mccluster.hauolicasino.config.pokelottery.Data;
+import eu.mccluster.hauolicasino.config.pokelottery.PokeLotteryConfig;
 import eu.mccluster.hauolicasino.objects.LotteryObject;
 import eu.mccluster.hauolicasino.utils.GenLotteryPokemon;
 import eu.mccluster.hauolicasino.utils.Placeholder;
 import eu.mccluster.hauolicasino.utils.TextUtils;
 import eu.mccluster.hauolicasino.utils.TimeUtils;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,6 +25,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LotteryTimer {
 
     public static void timer() {
+
+        PokeLotteryConfig config = ConfigManagement.getInstance().loadConfig(PokeLotteryConfig.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "PokeLottery.yml"));
+
         AtomicInteger reminder = new AtomicInteger();
         Task.builder()
                 .execute(() -> {
@@ -40,8 +48,9 @@ public class LotteryTimer {
                         int statHeight = (int)(Math.random() * 31);
                         LotteryObject object = new LotteryObject(pokemonIndexNumber, size, nature, gender, ability, stats, statHeight, date);
                         HauoliCasino._currentLottery.add(object);
-                        HauoliCasino.getData().lotteryData.add(object);
-                        HauoliCasino.getData().save();
+                        Data data = ConfigManagement.getInstance().loadConfig(Data.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
+                        data.lotteryData.add(object);
+                        ConfigManagement.getInstance().saveConfig(data, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
                         reminder.set(0);
 
                     } else if(remainingTime > 0) {
@@ -56,17 +65,19 @@ public class LotteryTimer {
                            int statHeight = (int)(Math.random() * 31);
                             LotteryObject object = new LotteryObject(pokemonIndexNumber, size, nature, gender, ability, stats, statHeight, date);
                             HauoliCasino._currentLottery.set(0, object);
-                            HauoliCasino.getData().lotteryData.set(0, object);
-                            HauoliCasino.getData().playerList.clear();
-                            HauoliCasino.getData().save();
+                           Data data = ConfigManagement.getInstance().loadConfig(Data.class, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
+
+                            data.lotteryData.set(0, object);
+                            data.playerList.clear();
+                           ConfigManagement.getInstance().saveConfig(data, Paths.get(HauoliCasino.LOTTERY_PATH + File.separator + "Data.yml"));
                             reminder.set(0);
-                            if(HauoliCasino.getConfig().bcSettings.broadcastLottery) {
-                                TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.lotteryMessage))));
+                            if(config.bcSettings.broadcastLottery) {
+                                TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(config.bcSettings.lotteryMessage))));
                             }
-                        } else if(HauoliCasino.getConfig().bcSettings.broadcastReminder) {
+                        } else if(config.bcSettings.broadcastReminder) {
                            reminder.set(reminder.get() + 1);
-                           if(reminder.get() >= HauoliCasino.getConfig().bcSettings.reminderInterval * 2) {
-                               TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(HauoliCasino.getConfig().bcSettings.reminderMessage))));
+                           if(reminder.get() >= config.bcSettings.reminderInterval * 2) {
+                               TextUtils.broadcast(Placeholder.currentPokemon(Placeholder.remainingTime(Placeholder.currentIdentifiers(config.bcSettings.reminderMessage))));
                                reminder.set(0);
                            }
                        }

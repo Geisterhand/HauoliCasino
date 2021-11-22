@@ -51,23 +51,27 @@ repositories {
             artifact()
         }
     }
-    maven {
-        name = 'public'
-        url = 'https://maven.hxmc.eu/content/groups/public/'
-    }
-}
-
-dependencies {
-    minecraft "net.minecraftforge:forge:" + modMinecraftVersion + "-" + modForgeVersion
-    implementation ":Pixelmon-1.12.2-8.2.0-server:8.2.0"
-    compile files('libs/GooeyLibs-1.12.2-2.1.1.jar')
-    compile "eu.mccluster.dependency:configmanager-api:1.1-SNAPSHOT"
-    shadow "eu.mccluster.dependency:deploader-api:1.2-SNAPSHOT"
 }
 
 configurations {
     shadow
     compile.extendsFrom shadow
+}
+
+    dependencies {
+    minecraft "net.minecraftforge:forge:" + modMinecraftVersion + "-" + modForgeVersion
+    implementation ":Pixelmon-1.12.2-8.3.3-server:8.3.3"
+    compile files('libs/GooeyLibs-1.12.2-2.1.1.jar')
+        shadow 'org.spongepowered:configurate-yaml:4.1.2'
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    classifier ''
+}
+
+reobf {
+    shadowJar {}
 }
 
 jar {
@@ -81,11 +85,6 @@ jar {
                 "Implementation-Vendor"   : modGroup,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
-    }
-    configurations.shadow.each { dep ->
-        from(project.zipTree(dep)){
-            exclude 'META-INF', 'META-INF/**'
-        }
     }
 }
 
